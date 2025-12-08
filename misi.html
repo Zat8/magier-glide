@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frieren Quest - Mission Board</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/misi.css">
+    <script src="asset/misi.js" defer></script>
+
+</head>
+<body>
+    <!-- Background Container -->
+    <!-- Ini adalah container untuk background image -->
+    <div class="background">
+        <img src="asset/foto/bg_eksplor.png">
+        <img src="asset/svg/peksplor.svg">
+    </div>
+
+    <!-- Navigation Bar -->
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="asset/foto/logo.png" alt="Frieren Logo">
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
+                <li><a href="misi.html" class="nav-link">MISSIONS</a></li>
+                <li><a href="profil.html" class="nav-link">PROFILE</a></li>
+                <li><a href="register.html" class="logout-btn">LOGIN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+        
+        <!-- Left Sidebar - Quest Type Selection -->
+        <!-- Panel kiri untuk memilih jenis quest -->
+        <aside class="sidebar-left">
+            <!-- Button akan di-generate oleh JavaScript -->
+            <button class="quest-type-btn active" data-type="exploration">
+                Exploration Quest
+            </button>
+            <button class="quest-type-btn" data-type="escort">
+                Escort Quest
+            </button>
+            <button class="quest-type-btn" data-type="investigation">
+                Investigation Quest
+            </button>
+        </aside>
+
+        <!-- Center - Quest List -->
+        <!-- Area tengah untuk menampilkan daftar quest -->
+        <main class="quest-list-container">
+            <div class="quest-list" id="questList">
+                <!-- Quest cards akan di-generate oleh JavaScript -->
+            </div>
+        </main>
+
+        <!-- Right Sidebar - Character Cards -->
+        <!-- Panel kanan untuk menampilkan character cards -->
+        <aside class="sidebar-right">
+            <!-- Character Card 1 - Large -->
+            <div class="character-card large">
+                <div class="card-inner">
+                    <!-- Isi dengan <img src="character1.jpg" alt="Character 1"> -->
+                    <span class="placeholder-text">Character Image 1</span>
+                </div>
+            </div>
+
+            <!-- Character Cards 2 & 3 - Small Side by Side -->
+            <div class="character-cards-row">
+                <div class="character-card small">
+                    <div class="card-inner">
+                        <!-- Isi dengan <img src="character2.jpg" alt="Character 2"> -->
+                        <span class="placeholder-text">Character 2</span>
+                    </div>
+                </div>
+                <div class="character-card small">
+                    <div class="card-inner">
+                        <!-- Isi dengan <img src="character3.jpg" alt="Character 3"> -->
+                        <span class="placeholder-text">Character 3</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Modal Detail Quest -->
+    <!-- Popup yang muncul saat quest card diklik -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <!-- Modal Header dengan Icon -->
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <!-- Diamond Icon SVG -->
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="currentColor" opacity="0.3"/>
+                        <path d="M12 6L6 12L12 18L18 12L12 6Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3 class="modal-subtitle" id="modalSubtitle">Exploration Quest</h3>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Quest Title</h2>
+                <div class="modal-objective">
+                    <strong>Objective:</strong> <span id="modalObjective">Quest objective</span>
+                </div>
+                <p class="modal-description" id="modalDescription">Quest details description</p>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button class="btn-take-quest" id="btnTakeQuest">Ambil Quest</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

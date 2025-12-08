@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magier Glide - Login & Register</title>
+    <style>
+        /* Reset default browser styles - menghilangkan margin dan padding default */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Membuat width dan height termasuk padding dan border */
+        }
+
+        /* Styling untuk body - elemen utama halaman */
+        body {
+            font-family: 'Georgia', serif; /* Font utama dengan fallback ke serif */
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%); /* Gradient background dari kiri-bawah ke kanan-atas */
+            min-height: 100vh; /* Minimal tinggi 100% viewport height */
+            display: flex; /* Menggunakan flexbox untuk layout */
+            justify-content: center; /* Memusatkan horizontal */
+            align-items: center; /* Memusatkan vertikal */
+            padding: 20px; /* Padding agar tidak menempel di tepi layar */
+        }
+
+        /* Container utama - membungkus semua konten */
+        .container {
+            text-align: center; /* Memusatkan teks di dalam container */
+            max-width: 450px; /* Lebar maksimal container */
+            width: 100%; /* Lebar 100% dari parent (responsive) */
+        }
+
+        /* Logo di bagian atas */
+        .logo {
+            color: #f1f5f9; /* Warna teks putih keabuan */
+            font-size: 24px; /* Ukuran font */
+            margin-bottom: 30px; /* Jarak ke elemen di bawahnya */
+            letter-spacing: 2px; /* Jarak antar huruf */
+        }
+
+        /* Heading 1 - "SELAMAT DATANG DI" */
+        h1 {
+            color: #f1f5f9; /* Warna putih keabuan */
+            font-family: 'Cinzel Decorative', serif; /* Font dekoratif dengan fallback */
+            font-size: 18px; /* Ukuran font */
+            font-weight: 400; /* Ketebalan font normal */
+            margin-bottom: 10px; /* Jarak ke bawah */
+            letter-spacing: 3px; /* Jarak antar huruf lebih lebar */
+        }
+
+        /* Heading 2 - "MAGIER GLIDE" */
+        h2 {
+            color: #f1f5f9; /* Warna putih keabuan */
+            font-family: 'Cinzel Decorative', serif; /* Font dekoratif */
+            font-size: 32px; /* Ukuran font besar */
+            font-weight: 700; /* Ketebalan font bold */
+            margin-bottom: 50px; /* Jarak ke bawah yang cukup besar */
+            letter-spacing: 2px; /* Jarak antar huruf */
+        }
+
+        /* Container untuk form - pembungkus form login dan register */
+        .form-container {
+            position: relative; /* Positioning context untuk child elements */
+        }
+
+        /* Form default - disembunyikan */
+        .form {
+            display: none; /* Form tidak ditampilkan secara default */
+        }
+
+        /* Form yang aktif - ditampilkan */
+        .form.active {
+            display: block; /* Menampilkan form yang memiliki class active */
+        }
+
+        /* Form group - pembungkus untuk setiap field input */
+        .form-group {
+            margin-bottom: 25px; /* Jarak antar form group */
+            text-align: center; /* PERUBAHAN: Memusatkan konten form-group */
+        }
+
+        /* Label untuk input field */
+        label {
+            display: inline-block; /* PERUBAHAN: Inline-block agar bisa diatur lebarnya */
+            width: 65%; /* PERUBAHAN: Lebar sama dengan input */
+            color: #f1f5f9; /* Warna putih keabuan */
+            font-size: 14px; /* Ukuran font */
+            margin-bottom: 8px; /* Jarak ke input di bawahnya */
+            font-weight: 500; /* Ketebalan font medium */
+            text-align: left; /* PERUBAHAN: Text align left agar sejajar dengan input */
+        }
+
+        /* Styling untuk input text dan select dropdown */
+        input, select {
+            width: 65%; /* PERUBAHAN: Lebar 65% untuk membuat input lebih kecil dan terpusat */
+            padding: 15px 20px; /* Padding dalam: 15px atas-bawah, 20px kiri-kanan */
+            border: none; /* Menghilangkan border default */
+            border-radius: 12px; /* Sudut membulat */
+            background: #f1f5f9; /* Background putih keabuan */
+            font-size: 16px; /* Ukuran font */
+            color: #334155; /* Warna teks abu-abu gelap */
+            outline: none; /* Menghilangkan outline default saat focus */
+            transition: all 0.3s ease; /* Transisi smooth untuk semua properti */
+            display: inline-block; /* PERUBAHAN: Inline-block agar bisa diatur centernya */
+        }
+
+        /* Styling saat input atau select di-focus (diklik) */
+        input:focus, select:focus {
+            background: #ffffff; /* Background berubah putih */
+            box-shadow: 0 0 0 3px rgba(241, 245, 249, 0.3); /* Shadow effect saat focus */
+        }
+
+        /* Styling khusus untuk select dropdown */
+        select {
+            cursor: pointer; /* Cursor pointer saat hover */
+            appearance: none; /* Menghilangkan styling default browser */
+            /* Custom arrow icon menggunakan SVG inline */
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23334155' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; /* Arrow tidak diulang */
+            background-position: right 20px center; /* Posisi arrow di kanan */
+            padding-right: 45px; /* Extra padding untuk memberi ruang pada arrow */
+        }
+
+        /* Link untuk toggle antara login dan register */
+        .link {
+            display: block; /* Block element */
+            color: #f1f5f9; /* Warna putih keabuan */
+            font-size: 14px; /* Ukuran font */
+            margin-bottom: 25px; /* Jarak ke bawah */
+            text-align: center; /* PERUBAHAN: Memusatkan link */
+            text-decoration: none; /* Menghilangkan underline default */
+            opacity: 0.9; /* Sedikit transparan */
+            transition: opacity 0.3s ease; /* Transisi smooth untuk opacity */
+            cursor: pointer; /* Cursor pointer saat hover */
+        }
+
+        /* Link saat di-hover */
+        .link:hover {
+            opacity: 1; /* Opacity penuh saat hover */
+            text-decoration: underline; /* Muncul underline saat hover */
+        }
+
+        /* Tombol submit (LOGIN/REGISTER) */
+        .submit-btn {
+            width: 65%; /* PERUBAHAN: Lebar sama dengan input (65%) */
+            padding: 16px; /* Padding dalam */
+            background: #f1f5f9; /* Background putih keabuan */
+            border: none; /* Tanpa border */
+            border-radius: 25px; /* Sudut sangat membulat */
+            font-size: 16px; /* Ukuran font */
+            font-weight: 700; /* Ketebalan font bold */
+            color: #334155; /* Warna teks abu-abu gelap */
+            cursor: pointer; /* Cursor pointer */
+            transition: all 0.3s ease; /* Transisi smooth */
+            letter-spacing: 1px; /* Jarak antar huruf */
+        }
+
+        /* Tombol saat di-hover */
+        .submit-btn:hover {
+            background: #ffffff; /* Background berubah putih penuh */
+            transform: translateY(-2px); /* Tombol terangkat 2px ke atas */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        }
+
+        /* Tombol saat di-klik (active state) */
+        .submit-btn:active {
+            transform: translateY(0); /* Kembali ke posisi normal */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo section -->
+        <div class="logo">
+            <img src="asset/foto/logo.png" alt="Frieren Logo">
+        </div>
+        
+        <!-- Title section -->
+        <h1>SELAMAT DATANG DI</h1>
+        <h2>MAGIER GLIDE</h2>
+        
+        <!-- Form container - pembungkus kedua form -->
+        <div class="form-container">
+            <!-- Login Form - form yang pertama kali muncul (class active) -->
+            <form id="loginForm" class="form active">
+                <!-- Form group untuk username -->
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                </div>
+
+                <!-- Form group untuk password -->
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+
+                <!-- Link untuk beralih ke form register -->
+                <a class="link" onclick="toggleForms()">Belum Punya Akun</a>
+
+                <!-- Tombol submit untuk login -->
+                <button type="submit" class="submit-btn">LOGIN</button>
+            </form>
+
+            <!-- Register Form - form yang tersembunyi, muncul saat toggle -->
+            <form id="registerForm" class="form">
+                <!-- Form group untuk username -->
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" placeholder="Username" required>
+                </div>
+
+                <!-- Form group untuk element sihir -->
+                <div class="form-group">
+                    <label for="element">Element Sihir</label>
+                    <select id="element" required>
+                        <option value="">Element Sihir</option>
+                        <option value="api">Api</option>
+                        <option value="air">Air</option>
+                        <option value="angin">Angin</option>
+                        <option value="tanah">Tanah</option>
+                        <option value="alam">Alam</option>
+                    </select>
+                </div>
+
+                <!-- Form group untuk password -->
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Password" required>
+                </div>
+
+                <!-- Link untuk kembali ke form login -->
+                <a class="link" onclick="toggleForms()">Sudah Punya Akun</a>
+
+                <!-- Tombol submit untuk register -->
+                <button type="submit" class="submit-btn">REGISTER</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk toggle (beralih) antara form login dan register
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm'); // Ambil element form login
+            const registerForm = document.getElementById('registerForm'); // Ambil element form register
+            
+            // Toggle class 'active' pada kedua form
+            // Jika login aktif, akan menjadi non-aktif dan sebaliknya
+            loginForm.classList.toggle('active');
+            registerForm.classList.toggle('active');
+        }
+
+        // Event listener untuk form login saat di-submit
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah form reload halaman
+            
+            // Ambil nilai dari input username dan password
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Validasi: jika username dan password terisi
+            if (username && password) {
+                // Simpan username ke localStorage agar bisa diakses di halaman lain
+                sessionStorage.setItem('username', username);
+                
+                // Tampilkan alert login berhasil
+                alert(`Login berhasil!\nSelamat datang, ${username}!`);
+                
+                // Redirect ke halaman index.html setelah 500ms (0.5 detik)
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 500);
+            }
+        });
+
+        // Event listener untuk form register saat di-submit
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah form reload halaman
+            
+            // Ambil nilai dari semua input
+            const username = document.getElementById('registerUsername').value;
+            const element = document.getElementById('element').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Validasi: jika semua field terisi, tampilkan alert
+            if (username && element && password) {
+                alert(`Registrasi berhasil!\nUsername: ${username}\nElement: ${element}`);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Frieren</title>
+    <link href="asset/profil.css" rel="stylesheet">
+    <script src="asset/profil.js" defer></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="asset/foto/logo.png" alt="Frieren Logo">
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
+                <li><a href="#missions" class="nav-link">MISSIONS</a></li>
+                <li><a href="profil.html" class="nav-link">PROFILE</a></li>
+                <li><a href="register.html" class="logout-btn">LOGIN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+        <!-- Profile Header dengan nama dan avatar -->
+        <div class="profile-header">
+            <!-- Informasi Profile Kiri -->
+            <div class="profile-info">
+                <p class="profile-subtitle">SOUSOU NO</p>
+                <h1 class="profile-name">FRIEREN</h1>
+                
+                <!-- Tabel informasi character -->
+                <div class="info-table">
+                    <span class="info-label">Title</span>
+                    <span class="info-value">Old Elf</span>
+                    
+                    <span class="info-label">Ras</span>
+                    <span class="info-value">Elf</span>
+                    
+                    <span class="info-label">Element</span>
+                    <span class="info-value">Fire</span>
+                    
+                    <span class="info-label">Umur</span>
+                    <span class="info-value">3000 Tahun</span>
+                </div>
+            </div>
+            
+            <!-- Avatar dan Badge Kanan -->
+            <div class="profile-avatar">
+                <button class="edit-btn">EDIT</button>
+                <img src="asset/foto/profil.png" alt="Frieren Avatar" class="avatar-image">
+                <div class="badge">FIRST CLASS</div>
+            </div>
+        </div>
+
+        <!-- Grid untuk Sihir dan Achievement - 2 Kartu Besar -->
+        <div class="content-grid">
+            <!-- KARTU 1: SIHIR - Berisi semua sihir -->
+            <div class="card">
+                <h2 class="card-title">SIHIR</h2>
+                
+                <!-- Item Sihir 1 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Fire Ball</h3>
+                        <p class="item-description">Menembak bola api ke arah yang ditentukan, semakin besar darah sihir yang digunakan semakin besar pula ukuran dan damage nya</p>
+                    </div>
+                </div>
+
+                <!-- Item Sihir 2 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Fire Wall</h3>
+                        <p class="item-description">Membuat dinding api yang menutup pengguna</p>
+                    </div>
+                </div>
+
+                <!-- Item Sihir 3 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Flagrate</h3>
+                        <p class="item-description">Menulis di udara menggunakan api</p>
+                    </div>
+                </div>
+
+                <!-- Item Sihir 4 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Inferno</h3>
+                        <p class="item-description">Membuat pilar api yang sangat besar dan sangat panas</p>
+                    </div>
+                </div>
+
+                <!-- Item Sihir 5 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Conflagrate</h3>
+                        <p class="item-description">Mengutuk target dengan api yang tak bisa padam hingga target musnak</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTU 2: ACHIEVEMENT - Berisi semua achievement -->
+            <div class="card">
+                <h2 class="card-title">ACHIEVEMENT</h2>
+                
+                <!-- Item Achievement 1 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Long Journey</h3>
+                        <p class="item-description">Berpetualang 1000 Tahun</p>
+                    </div>
+                </div>
+
+                <!-- Item Achievement 2 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Disciple of Flamme</h3>
+                        <p class="item-description">Murid dari penyihir terhebat sepanjang sejarah</p>
+                    </div>
+                </div>
+
+                <!-- Item Achievement 3 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">First Class Mage</h3>
+                        <p class="item-description">Penyihir kelas tertinggi</p>
+                    </div>
+                </div>
+
+                <!-- Item Achievement 4 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Demon King Slayer</h3>
+                        <p class="item-description">Pembunuh Raja Iblis</p>
+                    </div>
+                </div>
+
+                <!-- Item Achievement 5 -->
+                <div class="card-item">
+                    <div class="item-icon"></div>
+                    <div class="item-content">
+                        <h3 class="item-title">Heroes Party</h3>
+                        <p class="item-description">Penyihir Dari Party Pahlawan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER  ===== -->
+    <footer class="footer">
+        <img src="asset/svg/footer.svg" alt="Footer">
+        <div class="footer-content">
+            <h2>MAGIER GILDE</h2>
+            <nav class="footer-nav">
+                <a href="index.html">HOME</a>
+                <a href="#">DASHBOARD</a>
+                <a href="#">MISSIONS</a>
+                <a href="profil.html">PROFILE</a>
+            </nav>
+            <p class="copyright">© 2025 Magier Gilde. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
