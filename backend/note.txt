@@ -1,0 +1,102 @@
+[Tabel User]
+id-user
+username
+password
+elemen-sihir
+role ENUM('penyihir', resepsionis') NOT NULL DEFAULT 'resepsionis',
+ras # [Tabel Ras]
+umur
+exp
+rank # [Tabel Rank]
+
+[Tabel Category Quest]
+id-category
+category-name	
+
+[Tabel Quest]
+id-quest
+nama-quest
+objection-quest
+description-quest
+exp-reward # [Tabel Category Quest]
+category
+duration-quest
+
+[Tabel Event]
+event-id
+nama-event
+deskripsi
+start_time
+end_time
+image_event_name
+
+[Tabel Rank]
+id
+name // 1 class --> 9 classs
+exp_required
+
+[Tabel ras]
+id-ras
+nama // [elf, manusia, dwarf, half-demon, half-monster, spirits, herioc-spirits]
+
+[Tabel achievement]
+id
+nama
+
+[Tabel Sihir]
+id-sihir
+nama-sihir
+
+[Tabel pengumuman guild]
+id-pg
+title
+content
+created-at
+updated-at
+
+[Tabel Event]
+
+--- Relasi Tabel ----
+[Tabel User Achievement]
+id-user-achivement
+user-id (fk)
+achievment-id (fk)
+completed_at DATETIME
+
+unique(user-id, achivement-id)
+
+[Tabel User Sihir]
+id-user-sihir
+user-id (fk)
+sihir-id (fk)
+acquired-at DATETIME
+
+[Tabel User Quest]
+id-user-quest
+user-id (fk)
+quest-id (fk)
+status ENUM('not_started', 'in_progress', 'completed') NOT NULL DEFAULT 'not_started',
+start-time
+finish-time
+
+[Tabel User Event]
+id-user-event
+user-id (fk)
+event-id (fk)
+status ENUM('not_started', 'in_progress', 'completed') NOT NULL DEFAULT 'not_started',
+start-time
+finish-time
+
+[Tabel Quest Rewards]
+id-tabel-quest
+quest-id (fk)
+reward-id
+reward_type ENUM('spell', 'achievement') NOT NULL
+
+
+[Tabel Event Rewards]
+id-tabel-quest
+events-id (fk)
+reward-id
+reward_type ENUM('spell', 'achievement') NOT NULL,
+

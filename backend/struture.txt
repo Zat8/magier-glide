@@ -1,0 +1,54 @@
+/project-root
+│
+├── public/              # Semua file yang diakses user (HTML, CSS, JS)
+│   ├── index.php        # Landing page
+│   ├── profile.php
+│   ├── mission.php
+│   ├── dashboard.php
+│   ├── events.php
+│   ├── assets/          # css, js, gambar
+│   └── api/             # endpoint backend (AJAX)
+│       ├── login.php
+│       ├── logout.php
+│       ├── quest_start.php
+│       ├── quest_finish.php
+│       ├── quest_status.php
+│       ├── user_profile.php
+│       ├── user_achievement.php
+│       ├── user_spells.php
+│       ├── user_active_quests.php
+│       ├── leaderboard.php
+│       ├── events_list.php
+│       └── ...
+│
+├── app/
+│   ├── config/
+│   │   ├── database.php         # PDO connection
+│   │   └── settings.php         # global settings
+│   │
+│   ├── core/
+│   │   ├── Auth.php             # auth check, session
+│   │   ├── Response.php         # standardized JSON handler
+│   │   └── Utils.php            # helper function (time, sanitize)
+│   │
+│   ├── models/
+│   │   ├── User.php
+│   │   ├── Quest.php
+│   │   ├── Achievement.php
+│   │   ├── Spell.php
+│   │   ├── Rank.php
+│   │   └── Event.php
+│   │
+│   ├── services/
+│   │   ├── UserService.php
+│   │   ├── QuestService.php
+│   │   ├── RankService.php
+│   │   ├── AchievementService.php
+│   │   └── EventService.php
+│   │
+│   └── middleware/
+│       └── AuthMiddleware.php   # cek login sebelum halaman tertentu diakses
+│
+├── vendor/               # jika gunakan composer (optional)
+│
+└── README.md
