@@ -1,3 +1,53 @@
+<?php
+session_start();
+require "../config/connect.php";
+
+$error = null;
+
+if(isset($_POST["register"])) {
+	$id = uniqid('user_');
+	$email = trim($_POST["email"]);
+	$username = trim($_POST["username"]);
+	$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+	$umur = (int)$_POST["umur"];
+	$elemen = $_POST["elemen"];
+	$ras = $_POST["ras"];
+	$user_title = $_POST["user_title"];
+
+	$query = "insert into users (id, email, username, password, umur, elemen, ras, user_title) values (?, ?, ?, ?, ?, ?, ?, ?)";
+	$stmt = mysqli_prepare($conn, $query);
+	mysqli_stmt_bind_param($stmt, "ssssisss", $id, $email, $username, $password, $umur, $elemen, $ras, $user_title);
+
+	if (mysqli_stmt_execute($stmt)) {
+        $_SESSION['message'] = "Registration successful. Please login.";
+        header("Location: login.php");
+        exit;
+    } else {
+        $error = "Something Went Wrong";
+	}
+
+} elseif (isset($_POST["login"])) {
+	$email = trim($_POST['email']);
+    $password = $_POST['password'];
+
+    $query = "SELECT * FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
+
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user'] = $user['email'];
+        header("Location: dashboard.php");
+        exit;
+    } else {
+        $error = "Invalid email or password.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -147,7 +197,18 @@
 
         .submit-btn:active {
             transform: translateY(0); 
-        }
+		}
+
+		.error-msg {
+			background: rgba(230, 41, 55, 1);
+			padding: .75em;
+			border-radius: 10px;
+			color: white;
+			width: fit-content;
+			text-align: center;
+			margin: 0 auto;
+			margin-bottom: 20px;
+		}
     </style>
 </head>
 <body>
@@ -158,15 +219,16 @@
         </div>
 
         <h1>SELAMAT DATANG DI</h1>
-        <h2>MAGIER GLIDE</h2>
+		<h2>MAGIER GLIDE</h2>
+
+		<?php echo $error !== null ? '<p class="error-msg">' . $error . '</p>' : ''; ?>
 
         <div class="form-container">
 
-            <form id="loginForm" class="form active" action="api/login.php">
-
+            <form method="POST" id="loginForm" class="form active">
                 <div class="form-group">
-                    <label for="loginUsername">Username</label>
-                    <input type="text" id="loginUsername" placeholder="Username" name="username" required>
+                    <label for="loginEmail">Email</label>
+                    <input type="text" id="loginEmail" placeholder="Email" name="email" required>
                 </div>
 
                 <div class="form-group">
@@ -176,19 +238,33 @@
 
                 <a class="link" onclick="toggleForms()">Belum Punya Akun</a>
 
-                <button type="submit" class="submit-btn">LOGIN</button>
+                <button type="submit" class="submit-btn" name="login">LOGIN</button>
             </form>
 
-            <form id="registerForm" class="form">
+            <form method="POST" id="registerForm" class="form">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="text" id="loginEmail" placeholder="Email" name="email" required>
+				</div>
 
                 <div class="form-group">
                     <label for="registerUsername">Username</label>
-                    <input type="text" id="registerUsername" placeholder="Username" name="username" required>
+                    <input type="text" id="registerUsername" placeholder="Your Name (space is allowed)" name="username" required>
+				</div>
+
+				<div class="form-group">
+                    <label for="registerUsertitle">Title</label>
+                    <input type="text" id="registerUsertitle" placeholder="Your Title (example: Old Eld, etc)" name="user_title" required>
+				</div>
+
+                <div class="form-group">
+                    <label for="registerUmur">Umur</label>
+                    <input type="number" id="registerUmur" placeholder="Umur" name="umur" required>
                 </div>
 
                 <div class="form-group">
                     <label for="element">Element Sihir</label>
-                    <select id="element" required name="element" >
+                    <select id="element" required name="elemen" >
                         <option value="">Element Sihir</option>
                         <option value="api">Api</option>
                         <option value="air">Air</option>
@@ -218,7 +294,7 @@
 
                 <a class="link" onclick="toggleForms()">Sudah Punya Akun</a>
 
-                <button type="submit" class="submit-btn">REGISTER</button>
+                <button type="submit" class="submit-btn" name="register">REGISTER</button>
             </form>
         </div>
     </div>
@@ -232,6 +308,7 @@
             registerForm.classList.toggle('active');
         }
 
+		/* 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
 
@@ -260,7 +337,8 @@
             if (username && element && password) {
                 alert(`Registrasi berhasil!\nUsername: ${username}\nElement: ${element}`);
             }
-        });
+		});
+		*/
     </script>
 </body>
 </html>

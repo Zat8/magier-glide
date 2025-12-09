@@ -27,3 +27,8 @@ navLinks.forEach(link => {
         navMenu.classList.remove('active');
     });
 });
+
+const p = document.querySelector('.exp-progress');
+const max = p.style.getPropertyValue("--max");
+const val = p.style.getPropertyValue("--value");
+

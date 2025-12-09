@@ -45,7 +45,7 @@ function checkMobile() {
 
 function updateSlider() {
     checkMobile();
-    
+   
     const slideWidth = slideElements[0].offsetWidth;
     const gap = isMobile ? 15 : 30;
     const offset = currentIndex * (slideWidth + gap);

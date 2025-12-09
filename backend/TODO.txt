@@ -1,0 +1,5 @@
+[TODO]
+
+Nambahin starter sihir dan achievement ketika user register
+sihir_id = []
+

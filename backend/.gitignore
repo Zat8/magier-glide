@@ -1,0 +1,5 @@
+/upload/profile/*
+
+!/upload/profile/profil-default.png
+!/upload/profile/.gitkeep
+

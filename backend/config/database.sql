@@ -34,6 +34,7 @@ CREATE TABLE pengumuman_guild (
 create table users (
 	id varchar(50) not null primary key,
 	username varchar(100) not null,
+	user_title TEXT,
 	password varchar(255) not null,
 	experience INT NOT NULL DEFAULT 0,
     rank_user INT NOT NULL DEFAULT 1,
@@ -348,4 +349,29 @@ INSERT INTO pengumuman_guild (title, content) VALUES
  "Beberapa anggota melakukan percobaan sihir tingkat tinggi tanpa pengawasan. 
   Hal ini sangat membahayakan struktur ruang guild. 
   Mulai sekarang semua eksperimen harus mendapat persetujuan dari instruktur sihir senior.");
+
+INSERT INTO achievement_master (achievement_name, descriptions, exp_reward) VALUES
+("Rookie Mage", "Memulai perjalanan sebagai penyihir pemula.", 5),
+("First Mana Control", "Berhasil mengendalikan mana untuk pertama kali.", 8),
+("Beginner Spellcaster", "Mempelajari sihir dasar pertama.", 10);
+
+INSERT INTO sihir_master (sihir_name, descriptions) VALUES
+("Spark Flicker", "Percikan api kecil sebagai latihan dasar manipulasi mana."),
+("Minor Shield", "Perisai tipis yang hanya mampu menahan serangan kecil."),
+("Mana Breeze", "Hembusan angin lemah untuk latihan kontrol sihir.");
+
+INSERT INTO users_achievement (user_id, achievement_id, completed_at) VALUES
+('user_6937dc3670e4f', 1, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 2, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 3, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 4, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 5, CURRENT_TIMESTAMP);
+
+INSERT INTO users_achievement (user_id, sihir_id, completed_at) VALUES
+('user_6937dc3670e4f', 1, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 2, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 3, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 4, CURRENT_TIMESTAMP),
+('user_6937dc3670e4f', 5, CURRENT_TIMESTAMP);
+
 
