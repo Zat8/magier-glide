@@ -1,0 +1,557 @@
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Width dan height termasuk padding & border */
+    font-family: 'Cinzel Decorative', serif;
+}
+
+/* Styling dasar untuk body */
+body {
+    font-family: 'Georgia', serif; /* Font utama */
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); /* Gradient dari kiri-bawah ke kanan-atas */
+    color: #f1f5f9; /* Warna teks putih keabuan */
+    min-height: 100vh; /* Minimal tinggi 100% viewport */
+    display: flex; /* Flexbox untuk layout vertikal */
+    flex-direction: column; /* Susun navbar, main, footer dari atas ke bawah */
+    background: linear-gradient(to bottom, #1E2128 40%, #273452 60%);
+}
+
+
+/* ========================================
+   NAVBAR SECTION
+   ======================================== */
+
+/* Container navbar - fixed di atas */
+.navbar {
+    position: fixed; /* Fixed position agar navbar tetap di atas saat scroll */
+    top: 0;
+    left: 0;
+    width: 100%; /* Lebar penuh layar */
+    padding: 20px 60px; /* Padding: 20px atas-bawah, 60px kiri-kanan */
+    z-index: 1000; /* Z-index tinggi agar navbar selalu di atas elemen lain */
+    transition: all 0.3s ease; /* Animasi smooth untuk semua perubahan */
+    background: transparent; /* Background transparan saat di atas */
+}
+
+/* Navbar saat di-scroll - background muncul */
+.navbar.scrolled {
+    background: #273452; /* Background biru gelap */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Shadow untuk depth */
+    padding: 15px 60px; /* Padding lebih kecil saat scroll */
+}
+
+/* Container konten navbar */
+.nav-container {
+    display: flex; /* Flexbox untuk layout horizontal */
+    justify-content: space-between; /* Logo di kiri, menu di kanan */
+    align-items: center; /* Vertical align center */
+    max-width: 1400px; /* Lebar maksimal */
+    margin: 0 auto; /* Pusatkan container */
+}
+
+/* Logo styling */
+.logo img {
+    height: 70px; /* Tinggi logo default */
+    transition: height 0.3s ease; /* Animasi perubahan tinggi */
+}
+
+/* Logo lebih kecil saat navbar di-scroll */
+.navbar.scrolled .logo img {
+    height: 50px;
+}
+
+/* Menu navigasi */
+.nav-menu {
+    font-family: 'Cinzel Decorative', serif;
+    display: flex; /* Flexbox horizontal */
+    list-style: none; /* Hilangkan bullet points */
+    gap: 30px; /* Jarak antar menu item */
+    align-items: center; /* Vertical align center */
+    margin: 0;
+    padding: 0;
+}
+
+/* Link navigasi */
+.nav-link {
+    color: white; /* Warna teks putih */
+    text-decoration: none; /* Hilangkan underline */
+    font-family: 'Cinzel Decorative', serif; /* Font dekoratif */
+    font-size: 16px;
+    font-weight: 650; /* Semi-bold */
+    letter-spacing: 1px; /* Jarak antar huruf */
+    text-transform: uppercase; /* Huruf kapital semua */
+    transition: opacity 0.3s; /* Animasi opacity */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Shadow untuk kontras */
+}
+
+/* Hover effect untuk link */
+.nav-link:hover {
+    opacity: 0.7; /* Sedikit transparan saat hover */
+}
+
+/* Tombol logout/login dengan double border */
+.logout-btn {
+    position: relative; /* Untuk pseudo-element positioning */
+    color: #1e3a5f; /* Warna teks biru gelap */
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    font-weight: 650;
+    text-transform: uppercase;
+    padding: 12px 25px;
+    background: white; /* Background putih */
+    border-radius: 60px; /* Sudut sangat membulat (pill shape) */
+    border: 0.5px solid white; /* Border luar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow untuk depth */
+    transition: all 0.3s ease; /* Animasi smooth */
+    display: inline-block;
+}
+
+/* Border dalam menggunakan pseudo-element */
+.logout-btn::before {
+    content: ''; /* Konten kosong */
+    position: absolute; /* Absolute positioning dalam .logout-btn */
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 0.5px solid #1e3a5f; /* Border dalam biru gelap */
+    border-radius: 55px; /* Sedikit lebih kecil dari outer border */
+    pointer-events: none; /* Tidak interfere dengan click events */
+}
+
+/* Hover effect untuk tombol logout */
+.logout-btn:hover {
+    background: #1e3a5f; /* Background berubah biru gelap */
+    color: white; /* Teks jadi putih */
+    transform: translateY(-2px); /* Terangkat 2px ke atas */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Shadow lebih besar */
+}
+
+/* Hamburger menu untuk mobile (default hidden) */
+.hamburger {
+    display: none; /* Hidden di desktop */
+    flex-direction: column; /* Susun 3 garis vertikal */
+    cursor: pointer;
+    gap: 5px; /* Jarak antar garis */
+}
+
+/* Garis hamburger menu */
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s; /* Animasi untuk transformasi */
+    border-radius: 2px;
+}
+
+
+/* ========================================
+   MAIN CONTENT SECTION
+   ======================================== */
+
+/* Container utama untuk konten profile */
+.main-content {
+    flex: 1; /* Mengambil semua ruang sisa antara navbar dan footer */
+    padding: 60px 50px; /* Padding: 60px atas-bawah, 50px kiri-kanan */
+    max-width: 1400px; /* Lebar maksimal konten */
+    width: 100%; /* Lebar 100% dari parent */
+    margin: 0 auto; /* Pusatkan konten secara horizontal */
+    margin-top: 4em;
+}
+
+
+/* --- PROFILE HEADER --- */
+
+/* Container untuk bagian profile header (nama + avatar) */
+.profile-header {
+    display: flex; /* Flexbox untuk layout horizontal */
+    justify-content: space-between; /* Info kiri, avatar kanan */
+    align-items: flex-start; /* Align dari atas */
+    margin-bottom: 60px; /* Jarak ke section cards */
+}
+
+/* Bagian kiri - informasi profile */
+.profile-info {
+    flex: 1; /* Ambil ruang yang tersedia */
+}
+
+/* Subtitle kecil di atas nama */
+.profile-subtitle {
+    font-size: 30px;
+    letter-spacing: 4px; /* Jarak antar huruf lebar */
+    color: #94a3b8;
+    font-weight: 550;
+}
+
+/* Nama character besar */
+.profile-name {
+    font-family: 'Cinzel', serif; /* Font dekoratif */
+    font-size: 72px; /* Sangat besar */
+    font-weight: 700; /* Bold */
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+/* Tabel informasi character menggunakan CSS Grid */
+.info-table {
+    display: grid;
+    grid-template-columns: 120px 1fr; /* Kolom 1: 120px (label), Kolom 2: sisa ruang (value) */
+    gap: 15px; /* Jarak antar baris */
+    font-size: 18px;
+}
+
+/* Label di kolom kiri (Title, Ras, Element, Umur) */
+.info-label {
+    color: #94a3b8; /* Abu-abu terang */
+    font-weight: 400; /* Normal weight */
+}
+
+/* Value di kolom kanan (Old Elf, Elf, Fire, 100) */
+.info-value {
+    color: #f1f5f9; /* Putih keabuan */
+    font-weight: 600; /* Semi-bold */
+}
+
+
+/* --- PROFILE AVATAR --- */
+
+/* Container untuk avatar dan badge */
+.profile-avatar {
+    position: relative; /* Context untuk absolute positioning tombol edit */
+    text-align: center; /* Pusatkan konten */
+    display: flex; /* Flexbox untuk layout vertikal */
+    flex-direction: column; /* Susun vertikal (avatar, badge) */
+    align-items: center; /* Pusatkan horizontal */
+    margin-right: 7em;
+}
+
+/* Gambar avatar bulat */
+.avatar-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%; /* Membuat gambar menjadi lingkaran */
+    object-fit: cover; /* Crop gambar agar fit dalam lingkaran */
+    margin-bottom: 15px; /* Jarak antara avatar dan badge */
+}
+
+/* Tombol edit di pojok kanan atas avatar */
+.edit-btn {
+    position: absolute; /* Absolute positioning relatif ke .profile-avatar */
+    top: 0;
+    right: 0;
+    background: white; /* Background putih keabuan */
+    color: #1e3a5f; /* Teks abu-abu gelap */
+    padding: 12px 25px;
+    border-radius: 60px; /* Sudut membulat */
+    border: none;
+    cursor: pointer;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    font-weight: 650;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow untuk depth */
+    transition: all 0.3s ease; /* Animasi smooth */
+    display: inline-block;
+}
+
+/* Border dalam menggunakan pseudo-element */
+.edit-btn::before {
+    content: ''; /* Konten kosong */
+    position: absolute; /* Absolute positioning dalam .logout-btn */
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 0.5px solid #1e3a5f; /* Border dalam biru gelap */
+    border-radius: 55px; /* Sedikit lebih kecil dari outer border */
+    pointer-events: none; /* Tidak interfere dengan click events */
+}
+
+
+/* Hover effect untuk tombol edit */
+.edit-btn:hover {
+    background: #1e3a5f; /* Background berubah biru gelap */
+    color: white; /* Teks jadi putih */
+    transform: translateY(-2px); /* Terangkat 2px ke atas */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Shadow lebih besar */
+}
+
+/* Badge "FIRST CLASS" di bawah avatar */
+.badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 25px;
+    letter-spacing: 2px; /* Jarak antar huruf */
+    display: inline-block;
+    width: fit-content; /* Lebar sesuai konten */
+}
+
+/* ========================================
+   CONTENT GRID (SIHIR & ACHIEVEMENT)
+   ======================================== */
+
+/* Grid container untuk 2 kartu besar */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 kolom dengan ukuran sama (50% - 50%) */
+    gap: 40px; /* Jarak antar kartu */
+    margin-top: 40px; /* Jarak dari profile header */
+}
+
+/* Card besar untuk Sihir dan Achievement */
+.card {
+    background: #37476D; /* Background semi-transparan */
+    padding: 40px; /* Padding dalam kartu */
+    border-radius: 20px; /* Sudut membulat */
+    backdrop-filter: blur(10px); /* Efek blur pada background di belakang card */
+    border: 2px solid rgba(241, 245, 249, 0.1); /* Border tipis putih transparan */
+}
+
+/* Judul card (SIHIR / ACHIEVEMENT) */
+.card-title {
+    font-size: 28px;
+    font-weight: 700; /* Bold */
+    text-align: center; /* Teks di tengah */
+    margin-bottom: 35px; /* Jarak ke item pertama */
+    letter-spacing: 3px; /* Jarak antar huruf */
+}
+
+/* Item dalam card (setiap sihir/achievement) */
+.card-item {
+    display: flex; /* Flexbox untuk susun icon dan konten horizontal */
+    gap: 20px; /* Jarak antara icon dan konten */
+    margin-bottom: 30px; /* Jarak antar item */
+    align-items: flex-start; /* Align dari atas */
+}
+
+/* Item terakhir tidak perlu margin-bottom */
+.card-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Icon diamond (bentuk belah ketupat ◆) */
+.item-icon {
+    width: 18px;
+    height: 18px;
+    background: #f1f5f9; /* Warna putih keabuan */
+    transform: rotate(45deg); /* Rotasi 45° untuk membuat diamond dari square */
+    flex-shrink: 0; /* Ukuran tidak menyusut */
+    margin-top: 5px; /* Turun sedikit agar sejajar dengan teks */
+}
+
+/* Container konten (judul + deskripsi) */
+.item-content {
+    flex: 1; /* Ambil semua ruang yang tersedia */
+}
+
+/* Judul item (Fire Ball, Long Journey, dll) */
+.item-title {
+    font-size: 20px;
+    font-weight: 700; /* Bold */
+    margin-bottom: 10px; /* Jarak ke deskripsi */
+    color: #f1f5f9; /* Putih keabuan */
+}
+
+/* Deskripsi item */
+.item-description {
+    font-size: 14px;
+    color: #cbd5e1; /* Abu-abu lebih terang */
+    line-height: 1.6; /* Jarak antar baris 1.6x untuk readability */
+}
+
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+
+/* Container footer */
+.footer {
+    width: 100%;
+    line-height: 0; /* Hilangkan extra space di bawah SVG */
+    position: relative; /* Context untuk absolute positioning konten */
+}
+
+/* SVG footer (wave/decorative element) */
+.footer img {
+    width: 100%; /* Lebar penuh */
+    display: block; /* Block element untuk hilangkan space */
+}
+
+/* Konten footer (teks di atas SVG) */
+.footer-content {
+    font-family: 'Cinzel Decorative', serif; /* Font dekoratif */
+    position: absolute; /* Absolute positioning di atas SVG */
+    top: 80%; /* Posisi vertikal 80% dari atas footer */
+    left: 50%; /* Posisi horizontal 50% dari kiri */
+    transform: translate(-50%, -50%); /* Pusatkan dengan offset -50% dari ukuran sendiri */
+    text-align: center; /* Teks di tengah */
+    color: white;
+    width: 100%;
+    z-index: 2; /* Di atas SVG */
+}
+
+/* Judul footer "MAGIER GILDE" */
+.footer-content h2 {
+    font-weight: 800; /* Extra bold */
+    font-size: 3rem; /* 48px */
+    margin-bottom: 7rem; /* Jarak besar ke menu */
+    letter-spacing: 0.1em; /* Jarak antar huruf */
+}
+
+/* Navigasi footer */
+.footer-nav {
+    font-weight: 600;
+    display: flex; /* Flexbox horizontal */
+    justify-content: center; /* Pusatkan menu */
+    gap: 4.5rem; /* Jarak antar link */
+    margin-bottom: 3.5rem; /* Jarak ke copyright */
+}
+
+/* Link di footer nav */
+.footer-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem; /* 19.2px */
+    font-weight: 500;
+    transition: opacity 0.3s ease; /* Animasi opacity */
+}
+
+/* Hover effect untuk link footer */
+.footer-nav a:hover {
+    opacity: 0.7; /* Sedikit transparan */
+}
+
+/* Copyright text */
+.copyright {
+    font-size: 0.9rem; /* 14.4px */
+    font-weight: 600;
+    opacity: 0.8; /* Sedikit transparan */
+    margin: 0;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* --- TABLET (max-width: 1024px) --- */
+@media (max-width: 1024px) {
+    /* Cards menjadi 1 kolom (vertikal) */
+    .content-grid {
+        grid-template-columns: 1fr; /* 1 kolom penuh */
+    }
+    
+    /* Profile header menjadi vertikal */
+    .profile-header {
+        flex-direction: column; /* Susun vertikal */
+        align-items: center; /* Pusatkan */
+        text-align: center; /* Teks di tengah */
+    }
+    
+    /* Info table di tengah */
+    .info-table {
+        justify-items: center; /* Pusatkan items */
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        flex-direction: column;
+        background: #273452;
+        width: 100%;
+        padding: 30px 0;
+        gap: 20px;
+        transition: right 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .logout-btn {
+        margin-top: 10px;
+    }
+
+    .logo img {
+        height: 40px;
+    }
+
+    .main-title {
+        font-size: 60px;
+    }
+
+    .subtitle {
+        font-size: 28px;
+    }
+
+    .subtitle img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+        min-height: auto;
+    }
+
+    .about h1 {
+        font-size: 1.2rem;
+        width: 100%;
+    }
+
+    .about img:first-child {
+        width: 40px;
+        margin-top: -30px;
+    }
+
+    .about img:nth-child(2) {
+        width: 200px;
+        margin-bottom: 30px;
+    }
+
+    .login-btn {
+        font-size: 20px;
+        padding: 16px 32px;
+    }
+}
+/* --- MOBILE (max-width: 768px) --- */
+@media (max-width: 768px) {
+    /* Navbar padding lebih kecil */
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    /* Main content padding lebih kecil */
+    .main-content {
+        padding: 40px 20px;
+    }
+    
+    /* Nama profile lebih kecil */
+    .profile-name {
+        font-size: 48px; /* Dari 72px jadi 48px */
+    }
+    
+    /* Footer menu vertikal */
+    .footer-menu {
+        flex-direction: column; /* Susun vertikal */
+        align-items: center; /* Pusatkan */
+        gap: 20px;
+    }
+}

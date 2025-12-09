@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Magier Gilde - Era After Hero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./asset/style.css" rel="stylesheet">
+    <script src="./asset/script.js" defer></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+	<?php include "../component/navbar.php"?>
+
+    <!-- BANNER -->
+    <section class="banner">
+        <div class="banner-bg"></div>
+        <div class="banner-overlay"></div>
+        
+        <div class="banner-content">
+            <h1 class="main-title">MAGIER GLIDE</h1>
+            <div class="subtitle">
+                <img src="asset/svg/diamond.svg">
+                <span>Era After Hero</span>
+                <img src="asset/svg/diamond.svg">
+            </div>
+        </div>
+
+        <!-- Curved Divider -->
+        <div class="curve-divider">
+            <img src="asset/svg/transisi.svg">
+        </div>
+    </section>
+
+    <!-- CONTENT SECTION  -->
+    <section class="content-section">
+        <div class="about">
+            <img src="asset/svg/diamond.svg">
+            <img src="asset/svg/about.svg">
+            <h1 class="teks-about">Magier Gilde Adalah Pusat Pelatihan Bagi Para Penyihir Muda Untuk Mengasah Sihir,
+                Menjalankan Misi Berbahaya, Dan Menapaki Jalan Menuju Peringkat Tertinggi Di Era Pasca Hero Party.</h1>
+                <a href="register.html" class="login-btn">JOIN NOW</a>
+
+            <div class="slider">
+                <div class="slider-container">
+                    <div class="slides" id="slides">
+                        <div class="slide">
+                            <img class="frame" src="asset/svg/frame_slider.svg" alt="frame">
+                            <img class="content" src="asset/foto/slider.png" alt="gambar1">
+                        </div>
+
+                        <div class="slide active">
+                            <img class="frame" src="asset/svg/frame_slider.svg" alt="frame">
+                            <img class="content" src="asset/foto/slider.png" alt="gambar2">
+                        </div>
+
+                        <div class="slide">
+                            <img class="frame" src="asset/svg/frame_slider.svg" alt="frame">
+                            <img class="content" src="asset/foto/slider.png" alt="gambar3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature">
+            <img src="asset/svg/tfeature.svg">
+            <div class="fitur">
+                <img src="asset/svg/rank.svg">
+                <img src="asset/svg/misi.svg">
+                <img src="asset/svg/party.svg">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <img src="asset/svg/footer.svg" alt="Footer">
+        <div class="footer-content">
+            <h2>MAGIER GILDE</h2>
+            <nav class="footer-nav">
+                <a href="index.html">HOME</a>
+                <a href="#">DASHBOARD</a>
+                <a href="#">MISSIONS</a>
+                <a href="profil.html">PROFILE</a>
+            </nav>
+            <p class="copyright">© 2025 Magier Gilde. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

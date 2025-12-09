@@ -1,4 +1,4 @@
-[Tabel User]
+	[Tabel User]
 id-user
 username
 password
