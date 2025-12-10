@@ -45,6 +45,8 @@ session_start();
                 Menjalankan Misi Berbahaya, Dan Menapaki Jalan Menuju Peringkat Tertinggi Di Era Pasca Hero Party.</h2>
 				<a href="<?= isset($_SESSION["user"]) ? 'dashboard.php' : 'login.php' ?>" class="login-btn">JOIN NOW</a>
 
+			<!-- UI nya ngide banget
+
             <div class="slider">
                 <div class="slider-container">
                     <div class="slides" id="slides">
@@ -64,7 +66,25 @@ session_start();
                         </div>
                     </div>
                 </div>
-            </div>
+			</div>
+			-->
+		    <div class="slider">
+                <div class="slider-container">
+                    <div class="slides-combine" id="slides">
+                        <div class="slide-combine">
+                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-1-combine.png" alt="gambar1">
+                        </div>
+
+                        <div class="slide-combine active">
+                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-2-combine.png" alt="gambar2">
+                        </div>
+
+                        <div class="slide-combine">
+                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-3-combine.png" alt="gambar3">
+                        </div>
+                    </div>
+                </div>
+			</div>	
         </div>
 
         <div class="feature">

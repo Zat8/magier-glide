@@ -29,8 +29,8 @@ navLinks.forEach(link => {
 });
 
 // ===== SLIDER FUNCTIONALITY =====
-const slides = document.getElementById('slides');
-const slideElements = document.querySelectorAll('.slide');
+const slides = document.querySelector('.slides-combine');
+const slideElements = document.querySelectorAll('.slide-combine');
 
 let currentIndex = 1;
 let autoSlideInterval;

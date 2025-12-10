@@ -1,5 +1,6 @@
 [TODO]
 
 Nambahin starter sihir dan achievement ketika user register
-sihir_id = []
+sihir_id = [45, 46, 47]
+achievement_id = [35, 36, 37]
 
