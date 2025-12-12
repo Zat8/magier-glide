@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frieren RPG - Quest</title>
+    
+    <!-- EMBEDDED CSS -->
+    <style>
+        /* ====================================================================
+           QUEST PAGE CSS - EMBEDDED
+           ==================================================================== */
+        
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #93c5fd, #60a5fa);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Container */
+        .quest-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        .quest-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(to bottom, #93c5fd, #60a5fa);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quest-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .title-diamond {
+            width: 2rem;
+            height: 2rem;
+            background-color: white;
+            transform: rotate(45deg);
+        }
+
+        .btn-back {
+            padding: 0.75rem 2rem;
+            background-color: white;
+            color: #1f2937;
+            border: 2px solid #1f2937;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            background-color: #1f2937;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Quest Body */
+        .quest-body {
+            padding: 2rem;
+            background-color: #1f2937;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Section Styling */
+        .quest-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-diamond {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #1f2937;
+            transform: rotate(45deg);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .section-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        /* Quest Grid */
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Quest Card */
+        .quest-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quest-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .quest-type {
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quest-type.exploration {
+            background-color: #60a5fa;
+        }
+
+        .quest-type.escort {
+            background-color: #4ade80;
+        }
+
+        .quest-type.investigation {
+            background-color: #a78bfa;
+        }
+
+        .quest-diamond {
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: white;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        .quest-type-text {
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .quest-card-body {
+            padding: 1rem;
+        }
+
+        .quest-card-title {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .quest-description {
+            color: #4b5563;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .quest-time {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #9ca3af;
+        }
+
+        .empty-state p {
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Quest Container -->
+    <div class="quest-container">
+        <!-- Header -->
+        <header class="quest-header">
+            <div class="header-title-group">
+                <h1 class="quest-title">Quest</h1>
+                <div class="title-diamond"></div>
+            </div>
+            <a href="dashboard.html" class="btn-back">← Back to Dashboard</a>
+        </header>
+
+        <!-- Quest Body -->
+        <div class="quest-body">
+            <!-- In Progress Section -->
+            <section class="quest-section">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-diamond"></div>
+                        <h2 class="section-title">In Progress</h2>
+                    </div>
+                    <span class="section-count" id="inProgressCount">0</span>
+                </div>
+                <div class="quest-grid" id="questInProgress">
+                    <!-- Quest cards will be generated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Done Section -->
+            <section class="quest-section">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-diamond"></div>
+                        <h2 class="section-title">Done</h2>
+                    </div>
+                    <span class="section-count" id="doneCount">0</span>
+                </div>
+                <div class="quest-grid" id="questDone">
+                    <!-- Quest cards will be generated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- EMBEDDED JAVASCRIPT -->
+    <script>
+        /* ====================================================================
+           QUEST PAGE JAVASCRIPT - EMBEDDED
+           ==================================================================== */
+
+        // Quest Data
+        const questsData = {
+            inProgress: [
+                {
+                    id: 1,
+                    type: 'exploration',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 2,
+                    type: 'escort',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 3,
+                    type: 'investigation',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 4,
+                    type: 'exploration',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 5,
+                    type: 'escort',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 6,
+                    type: 'investigation',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 7,
+                    type: 'exploration',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                },
+                {
+                    id: 8,
+                    type: 'escort',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+                    time: '00:02:00'
+                }
+            ],
+            done: [
+                {
+                    id: 9,
+                    type: 'exploration',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+                },
+                {
+                    id: 10,
+                    type: 'escort',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+                },
+                {
+                    id: 11,
+                    type: 'investigation',
+                    title: 'Herb For Healing',
+                    description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+                }
+            ]
+        };
+
+        /**
+         * Create quest card HTML
+         * @param {object} quest - Quest data
+         * @param {boolean} showTime - Show time for in progress quests
+         */
+        function createQuestCard(quest, showTime = false) {
+            return `
+                <div class="quest-card">
+                    <div class="quest-type ${quest.type}">
+                        <div class="quest-diamond"></div>
+                        <span class="quest-type-text">${capitalizeFirst(quest.type)}</span>
+                    </div>
+                    <div class="quest-card-body">
+                        <h3 class="quest-card-title">${quest.title}</h3>
+                        <p class="quest-description">${quest.description}</p>
+                        ${showTime ? `<p class="quest-time">Waktu: ${quest.time}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Capitalize first letter
+         */
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        /**
+         * Render all quests
+         */
+        function renderQuests() {
+            const inProgressContainer = document.getElementById('questInProgress');
+            const doneContainer = document.getElementById('questDone');
+            const inProgressCount = document.getElementById('inProgressCount');
+            const doneCount = document.getElementById('doneCount');
+
+            // Render In Progress
+            if (inProgressContainer) {
+                if (questsData.inProgress.length > 0) {
+                    inProgressContainer.innerHTML = questsData.inProgress
+                        .map(quest => createQuestCard(quest, true))
+                        .join('');
+                } else {
+                    inProgressContainer.innerHTML = '<div class="empty-state"><p>Tidak ada quest yang sedang berjalan</p></div>';
+                }
+            }
+
+            // Render Done
+            if (doneContainer) {
+                if (questsData.done.length > 0) {
+                    doneContainer.innerHTML = questsData.done
+                        .map(quest => createQuestCard(quest, false))
+                        .join('');
+                } else {
+                    doneContainer.innerHTML = '<div class="empty-state"><p>Belum ada quest yang diselesaikan</p></div>';
+                }
+            }
+
+            // Update counts
+            if (inProgressCount) {
+                inProgressCount.textContent = questsData.inProgress.length;
+            }
+            if (doneCount) {
+                doneCount.textContent = questsData.done.length;
+            }
+        }
+
+        /**
+         * Initialize quest page
+         */
+        function initQuestPage() {
+            console.log('🎮 Initializing Quest Page...');
+            renderQuests();
+            console.log('✅ Quest page initialized!');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initQuestPage);
+        } else {
+            initQuestPage();
+        }
+    </script>
+</body>
+</html>
+
+<!-- 
+================================================================================
+PENJELASAN QUEST.HTML
+================================================================================
+
+STRUKTUR FILE:
+1. HTML dengan embedded CSS dan JavaScript
+2. Self-contained, tidak perlu file eksternal
+3. Easy to deploy dan maintain
+
+CSS SECTION (EMBEDDED):
+- Linear gradient background (Blue theme)
+- Card-based layout untuk quest items
+- Grid system dengan auto-fill untuk responsive
+- Hover effects untuk interactivity
+- Color coding untuk quest types (Exploration=Blue, Escort=Green, Investigation=Purple)
+- Clean white container dengan shadow
+
+JAVASCRIPT SECTION (EMBEDDED):
+- Quest data management (in progress & done)
+- Dynamic HTML generation dengan template strings
+- createQuestCard(): Generate HTML untuk quest card
+- renderQuests(): Populate quest containers
+- Empty state handling: Show message jika tidak ada quest
+- capitalizeFirst(): Utility function untuk formatting
+
+KEY FEATURES:
+✅ Responsive grid layout (auto-adjust berdasarkan screen size)
+✅ Quest type color coding untuk visual distinction
+✅ Timer display untuk in progress quests
+✅ Card hover effects
+✅ Count badges untuk quick overview
+✅ Empty state messages
+✅ Back button ke dashboard
+✅ Clean separation antara in progress & done
+
+QUEST TYPES:
+1. Exploration (Blue) - Quest eksplorasi
+2. Escort (Green) - Quest escort/pendampingan
+3. Investigation (Purple) - Quest investigasi
+
+DATA STRUCTURE:
+- questsData object dengan 2 arrays:
+  * inProgress: Quest yang sedang berjalan (dengan timer)
+  * done: Quest yang sudah selesai (tanpa timer)
+
+FUTURE ENHANCEMENTS:
+- Real-time countdown timer
+- Quest filtering by type
+- Quest search functionality
+- Sort by deadline/priority
+- Quest detail modal
+- Complete quest action
+- Connect to API/backend
+
+================================================================================
+-->

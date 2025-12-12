@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frieren RPG - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Background blur container -->
+    <div class="background-blur"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-text">葬送のフリーレン</span>
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link active">Home</a>
+            <a href="#" class="nav-link">Dashboard</a>
+            <a href="#" class="nav-link">Missions</a>
+            <a href="#" class="nav-link">Profile</a>
+        </div>
+        <button class="btn-logout">Logout</button>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left">
+            <!-- Player Level Card -->
+            <div class="player-card">
+                <div class="player-info">
+                    <div class="level-badge">
+                        <span class="level-number" id="levelNumber">9</span>
+                        <span class="level-suffix" id="levelSuffix">th</span>
+                    </div>
+                    <div class="player-details">
+                        <h2 class="player-name">FRIEREN</h2>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quest Button -->
+            <a href="quest.html" class="menu-btn">
+                <div class="diamond-icon">
+                    <div class="diamond-inner"></div>
+                </div>
+                <span class="menu-text">Quest</span>
+            </a>
+
+            <!-- Leaderboard Button -->
+            <a href="ranking.html" class="menu-btn">
+                <div class="diamond-icon">
+                    <div class="diamond-inner"></div>
+                </div>
+                <span class="menu-text">Leaderboard</span>
+            </a>
+
+            <!-- Event Box -->
+            <div class="event-box">
+                <img src="assets/foto/bg_invest.png" alt="Event Banner" class="event-image">
+            </div>
+        </aside>
+
+        <!-- Center - Character Display -->
+        <main class="main-content">
+            <div class="character-display">
+                <p class="placeholder-text">Character Placeholder</p>
+            </div>
+        </main>
+
+        <!-- Right Sidebar - Guild Announcements -->
+        <aside class="sidebar-right">
+            <div class="guild-announcements">
+                <div class="guild-header">
+                    <div class="guild-icon"></div>
+                    <h2 class="guild-title">Pengumuman Guild</h2>
+                </div>
+                <div class="announcements-container" id="announcementsContainer">
+                    <!-- Announcements akan di-generate oleh JavaScript -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Link ke JavaScript -->
+    <script src="dashboard.js"></script>
+</body>
+</html>
+
+<!-- 
+================================================================================
+PENJELASAN DASHBOARD.HTML
+================================================================================
+
+1. STRUKTUR UTAMA:
+   - Background blur: Fixed background dengan efek blur untuk aesthetic
+   - Navbar: Navigation bar dengan logo, links, dan logout button
+   - Main Container: Layout 3 kolom (sidebar kiri, center, sidebar kanan)
+
+2. SIDEBAR KIRI:
+   - Player Card: Menampilkan level badge dan progress bar
+     * levelNumber & levelSuffix: Akan diupdate oleh JS berdasarkan quest completion
+     * progressBar: Width akan diupdate oleh JS untuk show progress
+   
+   - Menu Buttons: Link ke halaman Quest dan Ranking
+     * Menggunakan <a> tag bukan <button> untuk navigasi antar halaman
+     * Diamond icon: Design element signature dari game ini
+   
+   - Event Box: Container untuk banner event dengan image placeholder
+
+3. MAIN CONTENT (CENTER):
+   - Character Display: Area untuk menampilkan karakter utama
+   - Saat ini masih placeholder, bisa diganti dengan gambar Frieren
+
+4. SIDEBAR KANAN:
+   - Guild Announcements: Container untuk pengumuman guild
+   - Announcements Container: Akan diisi dinamis oleh JavaScript
+   - Support scroll jika announcements lebih dari 8 items
+
+5. PERUBAHAN DARI VERSI SEBELUMNYA:
+   - ✅ Quest & Leaderboard button sekarang jadi link (<a>) ke file terpisah
+   - ✅ Tidak ada modal lagi, semua pindah ke halaman dedicated
+   - ✅ Lebih clean dan fokus ke dashboard functionality
+   - ✅ Level badge sekarang punya ID untuk dynamic update
+
+6. JAVASCRIPT INTEGRATION:
+   - dashboard.js akan handle:
+     * Generate announcements dinamis
+     * Update level & progress bar
+     * Accordion functionality untuk announcements
+     * Tidak perlu handle modal lagi karena sudah pindah page
+
+7. CSS INTEGRATION:
+   - dashboard.css mengatur semua styling
+   - Konsisten dengan design system yang sudah dibuat
+   - Responsive layout dengan flexbox
+
+================================================================================
+-->

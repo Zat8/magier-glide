@@ -1,0 +1,451 @@
+/* 
+================================================================================
+DASHBOARD.CSS - FRIEREN RPG GAME
+================================================================================
+Stylesheet untuk halaman dashboard
+Mengatur layout, colors, spacing, dan visual effects
+================================================================================
+*/
+
+/* ============================================================================
+   1. RESET & BASE STYLES
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1f2937; /* Gray-800 */
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background blur effect */
+.background-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/foto/bg_invest.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* ============================================================================
+   2. NAVBAR
+   ============================================================================ */
+
+.navbar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.125rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #d1d5db;
+}
+
+.btn-logout {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 9999px;
+    background: transparent;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: #1f2937;
+}
+
+/* ============================================================================
+   3. MAIN CONTAINER LAYOUT
+   ============================================================================ */
+
+.main-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+/* ============================================================================
+   4. LEFT SIDEBAR
+   ============================================================================ */
+
+.sidebar-left {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Player Card */
+.player-card {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.level-badge {
+    width: 3rem;
+    height: 3rem;
+    background-color: #374151;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.level-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.level-suffix {
+    font-size: 0.75rem;
+}
+
+.player-details {
+    flex: 1;
+}
+
+.player-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #374151;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+/* Menu Buttons */
+.menu-btn {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #1f2937;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.menu-btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.diamond-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: #1f2937;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.diamond-inner {
+    width: 1rem;
+    height: 1rem;
+    background-color: white;
+    transform: rotate(-45deg);
+}
+
+.menu-text {
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Event Box */
+.event-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.5rem;
+    height: 16rem;
+    overflow: hidden;
+}
+
+.event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ============================================================================
+   5. MAIN CONTENT
+   ============================================================================ */
+
+.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.character-display {
+    width: 24rem;
+    height: 24rem;
+    background-color: rgba(55, 65, 81, 0.5);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-text {
+    color: #9ca3af;
+    font-size: 1.25rem;
+}
+
+/* ============================================================================
+   6. RIGHT SIDEBAR - GUILD ANNOUNCEMENTS
+   ============================================================================ */
+
+.sidebar-right {
+    width: 384px;
+}
+
+.guild-announcements {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.guild-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.guild-icon {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(to bottom right, #22d3ee, #3b82f6);
+    transform: rotate(45deg);
+}
+
+.guild-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.announcements-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Custom Scrollbar */
+.announcements-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.announcements-container::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.3);
+    border-radius: 3px;
+}
+
+.announcements-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.announcements-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Announcement Item */
+.announcement-item {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.announcement-header {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.announcement-header:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.announcement-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.announcement-diamond {
+    width: 1rem;
+    height: 1rem;
+    background-color: #374151;
+    transform: rotate(45deg);
+}
+
+.announcement-title {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.announcement-arrow {
+    color: #1f2937;
+    transition: transform 0.3s ease;
+    font-size: 1.25rem;
+}
+
+.announcement-arrow.expanded {
+    transform: rotate(90deg);
+}
+
+.announcement-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.announcement-content.expanded {
+    max-height: 200px;
+}
+
+.announcement-text {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* 
+================================================================================
+END OF DASHBOARD.CSS
+================================================================================
+
+PENJELASAN CSS STRUCTURE:
+
+1. RESET & BASE:
+   - Universal reset untuk consistent spacing
+   - Body styling dengan background color
+   - Background blur menggunakan fixed positioning & filter
+
+2. NAVBAR:
+   - Flexbox layout untuk horizontal arrangement
+   - Glassmorphism effect dengan backdrop-filter
+   - Hover states untuk interactivity
+
+3. MAIN CONTAINER:
+   - Flexbox dengan 3 kolom layout
+   - Relative positioning untuk z-index layering
+   - Max-width untuk prevent overly wide layout
+
+4. SIDEBARS:
+   - Fixed width untuk consistency
+   - Flexbox column untuk vertical stacking
+   - Background dengan transparency & blur
+
+5. COMPONENTS:
+   - Player card: Level badge dengan circular design
+   - Progress bar: Gradient background dengan smooth animation
+   - Menu buttons: White cards dengan hover lift effect
+   - Diamond icons: Rotated squares untuk unique visual
+   - Announcements: Accordion dengan max-height transition
+
+6. SCROLLBAR:
+   - Custom webkit scrollbar styling
+   - Subtle colors untuk tidak mengganggu visual
+   - Hover state untuk better UX
+
+7. COLOR SCHEME:
+   - Primary: Gray-800 (#1f2937)
+   - Secondary: White dengan opacity variations
+   - Accent: Blue (#60a5fa) & Purple (#a78bfa) gradients
+   - Text: White for dark backgrounds, Dark for light backgrounds
+
+8. TRANSITIONS:
+   - 0.3s ease untuk most interactions
+   - 0.5s ease untuk progress bar (more dramatic)
+   - Transform untuk lift effects on hover
+
+================================================================================
+*/
