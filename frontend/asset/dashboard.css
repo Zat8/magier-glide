@@ -33,11 +33,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('assets/foto/bg_invest.png');
+    background-image: url('./foto/bdashboard.png');
     background-size: cover;
     background-position: center;
-    filter: blur(8px);
-    opacity: 0.3;
     z-index: 0;
 }
 
@@ -46,53 +44,113 @@ body {
    ============================================================================ */
 
 .navbar {
-    position: relative;
-    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 60px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.navbar.scrolled {
+    background: #273452;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    padding: 15px 60px;
+}
+
+.nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: rgba(17, 24, 39, 0.8);
-    backdrop-filter: blur(10px);
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 0.05em;
+.logo img {
+    height: 70px;
+    transition: height 0.3s ease;
 }
 
-.nav-links {
+.navbar.scrolled .logo img {
+    height: 50px;
+}
+
+.nav-menu {
     display: flex;
-    gap: 2rem;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
     color: white;
     text-decoration: none;
-    font-size: 1.125rem;
-    transition: color 0.3s ease;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.nav-link:hover,
-.nav-link.active {
-    color: #d1d5db;
+.nav-link:hover {
+    opacity: 0.7;
 }
 
-.btn-logout {
-    padding: 0.5rem 1.5rem;
-    border: 2px solid white;
-    border-radius: 9999px;
-    background: transparent;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-logout:hover {
+.logout-btn {
+    position: relative;
+    color: #1e3a5f;
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    font-weight: 650;
+    text-transform: uppercase;
+    padding: 12px 25px;
     background: white;
-    color: #1f2937;
+    border-radius: 60px;
+    border: 0.5px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 0.5px solid #1e3a5f;
+    border-radius: 55px;
+    pointer-events: none;
+}
+
+.logout-btn:hover {
+    background: #1e3a5f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s;
+    border-radius: 2px;
 }
 
 /* ============================================================================
@@ -107,6 +165,7 @@ body {
     padding: 2rem;
     max-width: 1920px;
     margin: 0 auto;
+    margin-top: 80px;
 }
 
 /* ============================================================================
@@ -122,10 +181,7 @@ body {
 
 /* Player Card */
 .player-card {
-    background-color: rgba(17, 24, 39, 0.8);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    backdrop-filter: blur(10px);
+    margin-bottom: 150px;
 }
 
 .player-info {
@@ -229,6 +285,7 @@ body {
 
 /* Event Box */
 .event-box {
+    margin-top: 100px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 0.5rem;
     height: 16rem;
@@ -255,17 +312,11 @@ body {
 .character-display {
     width: 24rem;
     height: 24rem;
-    background-color: rgba(55, 65, 81, 0.5);
-    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.placeholder-text {
-    color: #9ca3af;
-    font-size: 1.25rem;
-}
 
 /* ============================================================================
    6. RIGHT SIDEBAR - GUILD ANNOUNCEMENTS
@@ -273,13 +324,6 @@ body {
 
 .sidebar-right {
     width: 384px;
-}
-
-.guild-announcements {
-    background-color: rgba(17, 24, 39, 0.8);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    backdrop-filter: blur(10px);
 }
 
 .guild-header {
@@ -310,20 +354,7 @@ body {
 /* Custom Scrollbar */
 .announcements-container::-webkit-scrollbar {
     width: 6px;
-}
-
-.announcements-container::-webkit-scrollbar-track {
-    background: rgba(55, 65, 81, 0.3);
-    border-radius: 3px;
-}
-
-.announcements-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-.announcements-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
 }
 
 /* Announcement Item */
@@ -396,6 +427,79 @@ body {
     font-size: 0.875rem;
     line-height: 1.5;
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        flex-direction: column;
+        background: #273452;
+        width: 100%;
+        padding: 30px 0;
+        gap: 20px;
+        transition: right 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .logout-btn {
+        margin-top: 10px;
+    }
+
+    .logo img {
+        height: 40px;
+    }
+
+    .main-title {
+        font-size: 60px;
+    }
+
+    .subtitle {
+        font-size: 28px;
+    }
+
+    .subtitle img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+        min-height: auto;
+    }
+
+    .about h1 {
+        font-size: 1.2rem;
+        width: 100%;
+    }
+
+    .about img:first-child {
+        width: 40px;
+        margin-top: -30px;
+    }
+
+    .about img:nth-child(2) {
+        width: 200px;
+        margin-bottom: 30px;
+    }
+
+    .login-btn {
+        font-size: 20px;
+        padding: 16px 32px;
+    }
 
 /* 
 ================================================================================

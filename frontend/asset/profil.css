@@ -11,7 +11,7 @@
 
 /* Styling dasar untuk body */
 body {
-    font-family: 'Georgia', serif; /* Font utama */
+    font-family: 'Cinzel Decorative', serif; /* Font utama */
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); /* Gradient dari kiri-bawah ke kanan-atas */
     color: #f1f5f9; /* Warna teks putih keabuan */
     min-height: 100vh; /* Minimal tinggi 100% viewport */

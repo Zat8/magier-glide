@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frieren RPG - Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="asset/dashboard.css">
 </head>
 <body>
     <!-- Background blur container -->
     <div class="background-blur"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-logo">
-            <span class="logo-text">葬送のフリーレン</span>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="asset/foto/logo.png" alt="Frieren Logo">
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
+                <li><a href="misi.html" class="nav-link">MISSIONS</a></li>
+                <li><a href="profil.html" class="nav-link">PROFILE</a></li>
+                <li><a href="register.html" class="logout-btn">LOGIN</a></li>
+            </ul>
         </div>
-        <div class="nav-links">
-            <a href="dashboard.html" class="nav-link active">Home</a>
-            <a href="#" class="nav-link">Dashboard</a>
-            <a href="#" class="nav-link">Missions</a>
-            <a href="#" class="nav-link">Profile</a>
-        </div>
-        <button class="btn-logout">Logout</button>
     </nav>
 
     <!-- Main Content Container -->
@@ -62,14 +71,14 @@
 
             <!-- Event Box -->
             <div class="event-box">
-                <img src="assets/foto/bg_invest.png" alt="Event Banner" class="event-image">
+                <img src="asset/foto/bg_invest.png" alt="Event Banner" class="event-image">
             </div>
         </aside>
 
         <!-- Center - Character Display -->
         <main class="main-content">
             <div class="character-display">
-                <p class="placeholder-text">Character Placeholder</p>
+                <img src="asset/foto/bodyfrieren.png">
             </div>
         </main>
 
@@ -88,7 +97,7 @@
     </div>
 
     <!-- Link ke JavaScript -->
-    <script src="dashboard.js"></script>
+    <script src="asset/dashboard.js"></script>
 </body>
 </html>
 
