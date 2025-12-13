@@ -1,13 +1,13 @@
 /*
 ================================================================================
-DASHBOARD.JS - FRIEREN RPG GAME
-================================================================================
-JavaScript untuk mengelola interaktivitas dan dynamic content di dashboard
-Menggunakan Vanilla JavaScript (ES6+)
+DASHBOARD.JS - FRIEREN RPG GAME (WITH MODALS)
 ================================================================================
 */
 
-// Hamburger Menu (Mobile)
+// ============================================================================
+// HAMBURGER MENU (MOBILE)
+// ============================================================================
+
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
@@ -30,10 +30,6 @@ navLinks.forEach(link => {
 // 1. GUILD ANNOUNCEMENTS DATA
 // ============================================================================
 
-/**
- * Data pengumuman guild
- * Total 12 announcements, 8 visible dan 4 perlu scroll
- */
 const announcementsData = [
     {
         title: 'Perekrutan Penyihir Baru',
@@ -89,53 +85,28 @@ const announcementsData = [
 // 2. LEVEL SYSTEM CALCULATION
 // ============================================================================
 
-/**
- * Level thresholds berdasarkan requirement:
- * Level 9→8: 5 quest
- * Level 8→7: 5 + 10 = 15 quest
- * Level 7→6: 15 + 15 = 30 quest
- * Level 6→5: 30 + 20 = 50 quest
- * Level 5→4: 50 + 25 = 75 quest
- * Level 4→3: 75 + 30 = 105 quest
- * Level 3→2: 105 + 35 = 140 quest
- * Level 2→1: 140 + 40 = 180 quest
- */
 const levelThresholds = [0, 5, 15, 30, 50, 75, 105, 140, 180];
 
-/**
- * Calculate current level based on completed quests
- * @param {number} completedQuests - Jumlah quest yang sudah diselesaikan
- * @returns {number} - Current level (1-9, dimana 1 adalah tertinggi)
- */
 function getLevelFromQuests(completedQuests) {
-    // Loop dari threshold tertinggi ke terendah
     for (let i = levelThresholds.length - 1; i >= 0; i--) {
         if (completedQuests >= levelThresholds[i]) {
-            return 9 - i; // Convert index ke level number
+            return 9 - i;
         }
     }
-    return 9; // Default level 9 (terendah)
+    return 9;
 }
 
-/**
- * Calculate progress percentage to next level
- * @param {number} completedQuests - Jumlah quest yang sudah diselesaikan
- * @returns {number} - Progress percentage (0-100)
- */
 function getProgressToNextLevel(completedQuests) {
     const currentLevel = getLevelFromQuests(completedQuests);
     
-    // Jika sudah level 1 (tertinggi), progress 100%
     if (currentLevel === 1) {
         return 100;
     }
     
-    // Get current and next threshold
     const currentThresholdIndex = 9 - currentLevel;
     const currentThreshold = levelThresholds[currentThresholdIndex];
     const nextThreshold = levelThresholds[currentThresholdIndex + 1];
     
-    // Calculate progress
     const questsInCurrentLevel = completedQuests - currentThreshold;
     const questsNeededForNextLevel = nextThreshold - currentThreshold;
     const progress = (questsInCurrentLevel / questsNeededForNextLevel) * 100;
@@ -143,11 +114,6 @@ function getProgressToNextLevel(completedQuests) {
     return Math.min(progress, 100);
 }
 
-/**
- * Get level suffix (st, nd, rd, th)
- * @param {number} level - Level number
- * @returns {string} - Suffix string
- */
 function getLevelSuffix(level) {
     if (level === 1) return 'st';
     if (level === 2) return 'nd';
@@ -155,10 +121,6 @@ function getLevelSuffix(level) {
     return 'th';
 }
 
-/**
- * Update player level display
- * @param {number} completedQuests - Jumlah quest yang sudah diselesaikan
- */
 function updatePlayerLevel(completedQuests) {
     const level = getLevelFromQuests(completedQuests);
     const levelNumberEl = document.getElementById('levelNumber');
@@ -173,16 +135,11 @@ function updatePlayerLevel(completedQuests) {
     }
 }
 
-/**
- * Update progress bar display
- * @param {number} completedQuests - Jumlah quest yang sudah diselesaikan
- */
 function updateProgressBar(completedQuests) {
     const progressBar = document.getElementById('progressBar');
     const progressPercent = getProgressToNextLevel(completedQuests);
     
     if (progressBar) {
-        // Delay untuk smooth animation saat page load
         setTimeout(() => {
             progressBar.style.width = `${progressPercent}%`;
         }, 100);
@@ -193,12 +150,6 @@ function updateProgressBar(completedQuests) {
 // 3. ANNOUNCEMENTS RENDERING & ACCORDION
 // ============================================================================
 
-/**
- * Create announcement item HTML
- * @param {object} announcement - Announcement data object
- * @param {number} index - Index untuk unique ID
- * @returns {string} - HTML string
- */
 function createAnnouncementItem(announcement, index) {
     return `
         <div class="announcement-item">
@@ -216,14 +167,10 @@ function createAnnouncementItem(announcement, index) {
     `;
 }
 
-/**
- * Render all announcements
- */
 function renderAnnouncements() {
     const container = document.getElementById('announcementsContainer');
     
     if (container) {
-        // Generate HTML untuk semua announcements
         const announcementsHTML = announcementsData
             .map((announcement, index) => createAnnouncementItem(announcement, index))
             .join('');
@@ -232,41 +179,275 @@ function renderAnnouncements() {
     }
 }
 
-/**
- * Toggle announcement accordion
- * @param {number} index - Index of announcement to toggle
- */
 function toggleAnnouncement(index) {
     const content = document.getElementById(`content-${index}`);
     const arrow = document.getElementById(`arrow-${index}`);
     
     if (content && arrow) {
-        // Check if currently expanded
         const isExpanded = content.classList.contains('expanded');
         
         if (isExpanded) {
-            // Collapse
             content.classList.remove('expanded');
             arrow.classList.remove('expanded');
         } else {
-            // Expand
             content.classList.add('expanded');
             arrow.classList.add('expanded');
         }
     }
 }
 
-// Make function available globally for onclick
 window.toggleAnnouncement = toggleAnnouncement;
 
 // ============================================================================
-// 4. INITIALIZATION
+// 4. QUEST DATA & RENDERING
 // ============================================================================
 
-/**
- * Initialize dashboard
- * Dipanggil saat DOM sudah fully loaded
- */
+const questsData = {
+    inProgress: [
+        {
+            id: 1,
+            type: 'exploration',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 2,
+            type: 'escort',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 3,
+            type: 'investigation',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 4,
+            type: 'exploration',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 5,
+            type: 'escort',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 6,
+            type: 'investigation',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 7,
+            type: 'exploration',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        },
+        {
+            id: 8,
+            type: 'escort',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
+            time: '00:02:00'
+        }
+    ],
+    done: [
+        {
+            id: 9,
+            type: 'exploration',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+        },
+        {
+            id: 10,
+            type: 'escort',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+        },
+        {
+            id: 11,
+            type: 'investigation',
+            title: 'Herb For Healing',
+            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
+        }
+    ]
+};
+
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function createQuestCard(quest, showTime = false) {
+    return `
+        <div class="quest-card">
+            <div class="quest-type ${quest.type}">
+                <div class="quest-diamond"></div>
+                <span class="quest-type-text">${capitalizeFirst(quest.type)}</span>
+            </div>
+            <div class="quest-body">
+                <h3 class="quest-title">${quest.title}</h3>
+                <p class="quest-description">${quest.description}</p>
+                ${showTime ? `<p class="quest-time">Waktu: ${quest.time}</p>` : ''}
+            </div>
+        </div>
+    `;
+}
+
+function renderQuests() {
+    const inProgressContainer = document.getElementById('questInProgress');
+    const doneContainer = document.getElementById('questDone');
+    const inProgressCount = document.getElementById('inProgressCount');
+    const doneCount = document.getElementById('doneCount');
+
+    if (inProgressContainer) {
+        inProgressContainer.innerHTML = questsData.inProgress
+            .map(quest => createQuestCard(quest, true))
+            .join('');
+    }
+
+    if (doneContainer) {
+        doneContainer.innerHTML = questsData.done
+            .map(quest => createQuestCard(quest, false))
+            .join('');
+    }
+
+    if (inProgressCount) {
+        inProgressCount.textContent = questsData.inProgress.length;
+    }
+
+    if (doneCount) {
+        doneCount.textContent = questsData.done.length;
+    }
+}
+
+// ============================================================================
+// 5. LEADERBOARD DATA & RENDERING
+// ============================================================================
+
+const leaderboardData = [
+    { rank: 1, name: 'FRIEREN', email: 'frieren@gmail.com', class: 'FIRST CLASS' },
+    { rank: 2, name: 'FERN', email: 'fern@gmail.com', class: 'SECOND CLASS' },
+    { rank: 3, name: 'STARK', email: 'stark@gmail.com', class: 'SECOND CLASS' },
+    { rank: 4, name: 'HIMMEL', email: 'himmel@gmail.com', class: 'SECOND CLASS' },
+    { rank: 5, name: 'HEITER', email: 'heiter@gmail.com', class: 'THIRD CLASS' },
+    { rank: 6, name: 'EISEN', email: 'eisen@gmail.com', class: 'THIRD CLASS' }
+];
+
+function createLeaderboardItem(player) {
+    return `
+        <div class="leaderboard-item">
+            <div class="leaderboard-rank">
+                <span class="rank-number">${player.rank}</span>
+            </div>
+            <div class="leaderboard-info">
+                <div class="player-avatar"></div>
+                <div class="player-name-group">
+                    <h3>${player.name}</h3>
+                    <p class="player-email">${player.email}</p>
+                </div>
+            </div>
+            <div class="leaderboard-class">
+                <span class="class-badge">${player.class}</span>
+            </div>
+        </div>
+    `;
+}
+
+function renderLeaderboard() {
+    const container = document.getElementById('leaderboardList');
+
+    if (container) {
+        container.innerHTML = leaderboardData
+            .map(player => createLeaderboardItem(player))
+            .join('');
+    }
+}
+
+// ============================================================================
+// 6. MODAL MANAGEMENT
+// ============================================================================
+
+function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function setupModals() {
+    // Quest Modal
+    const questBtn = document.getElementById('questBtn');
+    const closeQuestModal = document.getElementById('closeQuestModal');
+    const questModal = document.getElementById('questModal');
+
+    if (questBtn) {
+        questBtn.addEventListener('click', () => {
+            showModal('questModal');
+            renderQuests();
+        });
+    }
+
+    if (closeQuestModal) {
+        closeQuestModal.addEventListener('click', () => hideModal('questModal'));
+    }
+
+    // Leaderboard Modal
+    const leaderboardBtn = document.getElementById('leaderboardBtn');
+    const closeLeaderboardModal = document.getElementById('closeLeaderboardModal');
+    const leaderboardModal = document.getElementById('leaderboardModal');
+
+    if (leaderboardBtn) {
+        leaderboardBtn.addEventListener('click', () => {
+            showModal('leaderboardModal');
+            renderLeaderboard();
+        });
+    }
+
+    if (closeLeaderboardModal) {
+        closeLeaderboardModal.addEventListener('click', () => hideModal('leaderboardModal'));
+    }
+
+    // Close modal saat click di luar content
+    if (questModal) {
+        questModal.addEventListener('click', (e) => {
+            if (e.target === questModal) {
+                hideModal('questModal');
+            }
+        });
+    }
+
+    if (leaderboardModal) {
+        leaderboardModal.addEventListener('click', (e) => {
+            if (e.target === leaderboardModal) {
+                hideModal('leaderboardModal');
+            }
+        });
+    }
+}
+
+// ============================================================================
+// 7. INITIALIZATION
+// ============================================================================
+
 function initDashboard() {
     console.log('🎮 Initializing Frieren RPG Dashboard...');
     
@@ -274,16 +455,20 @@ function initDashboard() {
     renderAnnouncements();
     
     // 2. Update player level & progress bar
-    // Example: 12 completed quests (bisa diganti dengan data dari API/localStorage)
     const completedQuests = 12;
     updatePlayerLevel(completedQuests);
     updateProgressBar(completedQuests);
     
-    // 3. Log info
+    // 3. Setup modal event listeners
+    setupModals();
+    
+    // 4. Log info
     console.log('✅ Dashboard initialized successfully!');
     console.log(`📊 Level: ${getLevelFromQuests(completedQuests)}/9`);
     console.log(`📈 Progress: ${getProgressToNextLevel(completedQuests).toFixed(1)}%`);
     console.log(`📢 Announcements: ${announcementsData.length} loaded`);
+    console.log(`🎯 Quests: ${questsData.inProgress.length} in progress, ${questsData.done.length} done`);
+    console.log(`🏆 Leaderboard: ${leaderboardData.length} players`);
 }
 
 // Wait for DOM to be fully loaded
@@ -295,50 +480,18 @@ if (document.readyState === 'loading') {
 
 /*
 ================================================================================
-END OF DASHBOARD.JS
+END OF DASHBOARD.JS (WITH MODALS)
 ================================================================================
 
-PENJELASAN STRUKTUR & LOGIC:
-
-1. DATA MANAGEMENT:
-   - announcementsData: Array of 12 announcements
-   - Menggunakan array untuk mudah di-loop dan di-render
-
-2. LEVEL SYSTEM:
-   - levelThresholds: Array yang define kapan player naik level
-   - getLevelFromQuests(): Loop dari belakang untuk efficient calculation
-   - getProgressToNextLevel(): Calculate percentage untuk progress bar
-   - getLevelSuffix(): Helper untuk format level display (1st, 2nd, 3rd, 4th)
-
-3. UPDATE FUNCTIONS:
-   - updatePlayerLevel(): Update level number & suffix di UI
-   - updateProgressBar(): Update width progress bar dengan smooth animation
-   - Menggunakan setTimeout untuk delay animation saat page load
-
-4. ANNOUNCEMENTS:
-   - createAnnouncementItem(): Generate HTML string untuk 1 announcement
-   - renderAnnouncements(): Loop semua data dan inject ke DOM
-   - toggleAnnouncement(): Toggle expand/collapse dengan class manipulation
-   - window.toggleAnnouncement: Expose function untuk onclick HTML attribute
-
-5. INITIALIZATION:
-   - initDashboard(): Main function yang dipanggil saat page load
-   - DOMContentLoaded check: Ensure DOM ready sebelum manipulasi
-   - Console logs: Helpful untuk debugging
-
-6. KEY FEATURES:
-   ✅ Dynamic level calculation berdasarkan quest completion
-   ✅ Smooth progress bar animation
-   ✅ Accordion untuk announcements
-   ✅ Efficient rendering dengan array methods
-   ✅ Console logging untuk debugging
-
-7. FUTURE ENHANCEMENTS:
-   - Connect ke API untuk fetch real data
-   - localStorage untuk persist user progress
-   - Add loading states
-   - Error handling untuk robustness
-   - Add event listeners untuk interactive elements
+FEATURES INTEGRATED:
+✅ Hamburger menu untuk mobile
+✅ Guild announcements dengan accordion
+✅ Level system dengan progress bar
+✅ Quest modal dengan in progress & done sections
+✅ Leaderboard modal dengan player rankings
+✅ Modal management (show/hide, click outside to close)
+✅ Dynamic rendering semua content
+✅ Smooth animations & transitions
 
 ================================================================================
 */

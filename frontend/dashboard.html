@@ -25,7 +25,7 @@
             
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">HOME</a></li>
-                <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
+                <li><a href="dashboard.html" class="nav-link">DASHBOARD</a></li>
                 <li><a href="misi.html" class="nav-link">MISSIONS</a></li>
                 <li><a href="profil.html" class="nav-link">PROFILE</a></li>
                 <li><a href="register.html" class="logout-btn">LOGIN</a></li>
@@ -53,21 +53,17 @@
                 </div>
             </div>
 
-            <!-- Quest Button -->
-            <a href="quest.html" class="menu-btn">
-                <div class="diamond-icon">
-                    <div class="diamond-inner"></div>
-                </div>
+            <!-- Quest Button (Changed to button for modal) -->
+            <button class="menu-btn" id="questBtn">
+                <div class="diamond-icon"></div>
                 <span class="menu-text">Quest</span>
-            </a>
+            </button>
 
-            <!-- Leaderboard Button -->
-            <a href="ranking.html" class="menu-btn">
-                <div class="diamond-icon">
-                    <div class="diamond-inner"></div>
-                </div>
+            <!-- Leaderboard Button (Changed to button for modal) -->
+            <button class="menu-btn" id="leaderboardBtn">
+                <div class="diamond-icon"></div>
                 <span class="menu-text">Leaderboard</span>
-            </a>
+            </button>
 
             <!-- Event Box -->
             <div class="event-box">
@@ -78,7 +74,7 @@
         <!-- Center - Character Display -->
         <main class="main-content">
             <div class="character-display">
-                <img src="asset/foto/bodyfrieren.png">
+                <img src="asset/foto/bodyfrieren.png" alt="Frieren Character">
             </div>
         </main>
 
@@ -96,6 +92,66 @@
         </aside>
     </div>
 
+    <!-- Quest Modal -->
+    <div class="modal" id="questModal">
+        <div class="modal-content modal-quest">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <h2 class="modal-title">Quest</h2>
+                    <div class="title-diamond"></div>
+                </div>
+                <button class="btn-close" id="closeQuestModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- In Progress Section -->
+                <div class="quest-section">
+                    <div class="section-header">
+                        <div class="section-title-group">
+                            <div class="section-diamond"></div>
+                            <span class="section-title">In Progress</span>
+                        </div>
+                        <span class="section-count" id="inProgressCount">0</span>
+                    </div>
+                    <div class="quest-grid" id="questInProgress">
+                        <!-- Quest cards akan di-generate oleh JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Done Section -->
+                <div class="quest-section">
+                    <div class="section-header">
+                        <div class="section-title-group">
+                            <div class="section-diamond"></div>
+                            <span class="section-title">Done</span>
+                        </div>
+                        <span class="section-count" id="doneCount">0</span>
+                    </div>
+                    <div class="quest-grid" id="questDone">
+                        <!-- Quest cards akan di-generate oleh JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div class="modal" id="leaderboardModal">
+        <div class="modal-content modal-leaderboard">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <h2 class="modal-title">Leaderboard</h2>
+                    <div class="title-diamond"></div>
+                </div>
+                <button class="btn-close" id="closeLeaderboardModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="leaderboard-list" id="leaderboardList">
+                    <!-- Leaderboard items akan di-generate oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Link ke JavaScript -->
     <script src="asset/dashboard.js"></script>
 </body>
@@ -103,51 +159,35 @@
 
 <!-- 
 ================================================================================
-PENJELASAN DASHBOARD.HTML
+PENJELASAN DASHBOARD.HTML (UPDATED WITH MODALS)
 ================================================================================
 
-1. STRUKTUR UTAMA:
-   - Background blur: Fixed background dengan efek blur untuk aesthetic
-   - Navbar: Navigation bar dengan logo, links, dan logout button
-   - Main Container: Layout 3 kolom (sidebar kiri, center, sidebar kanan)
+PERUBAHAN UTAMA:
+1. ✅ Quest & Leaderboard button diubah dari <a> menjadi <button>
+2. ✅ Ditambahkan 2 modal containers (questModal & leaderboardModal)
+3. ✅ Modal muncul sebagai popup overlay di atas dashboard
+4. ✅ Background dashboard tetap visible dengan overlay gelap
 
-2. SIDEBAR KIRI:
-   - Player Card: Menampilkan level badge dan progress bar
-     * levelNumber & levelSuffix: Akan diupdate oleh JS berdasarkan quest completion
-     * progressBar: Width akan diupdate oleh JS untuk show progress
-   
-   - Menu Buttons: Link ke halaman Quest dan Ranking
-     * Menggunakan <a> tag bukan <button> untuk navigasi antar halaman
-     * Diamond icon: Design element signature dari game ini
-   
-   - Event Box: Container untuk banner event dengan image placeholder
+STRUKTUR MODAL:
+- Quest Modal: Blue gradient, 2 sections (In Progress & Done)
+- Leaderboard Modal: Purple gradient, player rankings
+- Close button (X) dan click outside untuk menutup modal
 
-3. MAIN CONTENT (CENTER):
-   - Character Display: Area untuk menampilkan karakter utama
-   - Saat ini masih placeholder, bisa diganti dengan gambar Frieren
+NAVBAR:
+- Fixed position dengan scroll effect
+- Hamburger menu untuk mobile responsive
+- Logo Frieren custom
 
-4. SIDEBAR KANAN:
-   - Guild Announcements: Container untuk pengumuman guild
-   - Announcements Container: Akan diisi dinamis oleh JavaScript
-   - Support scroll jika announcements lebih dari 8 items
+MAIN LAYOUT:
+- 3 kolom: Sidebar kiri (player info + menu), Center (character), Sidebar kanan (announcements)
+- Player card dengan level badge dan progress bar dinamis
+- Guild announcements dengan accordion functionality
 
-5. PERUBAHAN DARI VERSI SEBELUMNYA:
-   - ✅ Quest & Leaderboard button sekarang jadi link (<a>) ke file terpisah
-   - ✅ Tidak ada modal lagi, semua pindah ke halaman dedicated
-   - ✅ Lebih clean dan fokus ke dashboard functionality
-   - ✅ Level badge sekarang punya ID untuk dynamic update
-
-6. JAVASCRIPT INTEGRATION:
-   - dashboard.js akan handle:
-     * Generate announcements dinamis
-     * Update level & progress bar
-     * Accordion functionality untuk announcements
-     * Tidak perlu handle modal lagi karena sudah pindah page
-
-7. CSS INTEGRATION:
-   - dashboard.css mengatur semua styling
-   - Konsisten dengan design system yang sudah dibuat
-   - Responsive layout dengan flexbox
+INTERAKSI:
+- Click "Quest" → Modal Quest muncul dengan list quest
+- Click "Leaderboard" → Modal Leaderboard muncul dengan rankings
+- Click X atau outside modal → Modal hilang
+- Body scroll disabled saat modal open
 
 ================================================================================
 -->

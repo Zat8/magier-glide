@@ -1,9 +1,6 @@
 /* 
 ================================================================================
-DASHBOARD.CSS - FRIEREN RPG GAME
-================================================================================
-Stylesheet untuk halaman dashboard
-Mengatur layout, colors, spacing, dan visual effects
+DASHBOARD.CSS - FRIEREN RPG GAME (WITH MODALS)
 ================================================================================
 */
 
@@ -19,14 +16,13 @@ Mengatur layout, colors, spacing, dan visual effects
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1f2937; /* Gray-800 */
+    background-color: #1f2937;
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
 }
 
-/* Background blur effect */
 .background-blur {
     position: fixed;
     top: 0;
@@ -154,7 +150,7 @@ body {
 }
 
 /* ============================================================================
-   3. MAIN CONTAINER LAYOUT
+   3. MAIN CONTAINER
    ============================================================================ */
 
 .main-container {
@@ -163,6 +159,7 @@ body {
     display: flex;
     gap: 1.5rem;
     padding: 2rem;
+    padding-right: 3rem;
     max-width: 1920px;
     margin: 0 auto;
     margin-top: 80px;
@@ -179,7 +176,6 @@ body {
     gap: 1rem;
 }
 
-/* Player Card */
 .player-card {
     margin-bottom: 150px;
 }
@@ -240,13 +236,13 @@ body {
 
 /* Menu Buttons */
 .menu-btn {
-    width: 100%;
+    width: auto;
     background-color: rgba(255, 255, 255, 0.9);
     color: #1f2937;
     border: none;
     border-radius: 0.5rem;
     padding: 1rem;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.75rem;
     cursor: pointer;
@@ -261,21 +257,15 @@ body {
 }
 
 .diamond-icon {
-    width: 2rem;
-    height: 2rem;
-    background-color: #1f2937;
+    width: 1.5rem;
+    height: 1.5rem;
     transform: rotate(45deg);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-}
-
-.diamond-inner {
-    width: 1rem;
-    height: 1rem;
-    background-color: white;
-    transform: rotate(-45deg);
+    background-color: transparent;
+    border: 6px solid #1f2937;
 }
 
 .menu-text {
@@ -317,6 +307,11 @@ body {
     justify-content: center;
 }
 
+.character-display img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
 
 /* ============================================================================
    6. RIGHT SIDEBAR - GUILD ANNOUNCEMENTS
@@ -334,9 +329,10 @@ body {
 }
 
 .guild-icon {
-    width: 2rem;
-    height: 2rem;
-    background: linear-gradient(to bottom right, #22d3ee, #3b82f6);
+    width: 1.7rem;
+    height: 1.7rem;
+    background-color: transparent;
+    border: 7px solid #ffffff;
     transform: rotate(45deg);
 }
 
@@ -348,16 +344,13 @@ body {
 .announcements-container {
     max-height: 600px;
     overflow-y: auto;
-    padding-right: 0.5rem;
 }
 
-/* Custom Scrollbar */
 .announcements-container::-webkit-scrollbar {
     width: 6px;
     background-color: transparent;
 }
 
-/* Announcement Item */
 .announcement-item {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 0.5rem;
@@ -389,8 +382,8 @@ body {
 }
 
 .announcement-diamond {
-    width: 1rem;
-    height: 1rem;
+    width: 0.5rem;
+    height: 0.5rem;
     background-color: #374151;
     transform: rotate(45deg);
 }
@@ -428,7 +421,311 @@ body {
     line-height: 1.5;
 }
 
-/* Mobile */
+/* ============================================================================
+   7. MODAL STYLES
+   ============================================================================ */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 1400px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-quest {
+    background: linear-gradient(to bottom, #93c5fd, #60a5fa);
+}
+
+.modal-leaderboard {
+    background: linear-gradient(to bottom, #c4b5fd, #a78bfa);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.title-diamond {
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    border: 4px solid white;
+    transform: rotate(45deg);
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 2.5rem;
+    color: #1f2937;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close:hover {
+    color: #4b5563;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background-color: #1f2937;
+}
+
+/* ============================================================================
+   8. QUEST MODAL CONTENT
+   ============================================================================ */
+
+.quest-section {
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-diamond {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: transparent;
+    border: 3px solid #1f2937;
+    transform: rotate(45deg);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.section-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.quest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.quest-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.quest-type {
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quest-type.exploration {
+    background-color: #60a5fa;
+}
+
+.quest-type.escort {
+    background-color: #4ade80;
+}
+
+.quest-type.investigation {
+    background-color: #a78bfa;
+}
+
+.quest-diamond {
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: transparent;
+    border: 3px solid white;
+    transform: rotate(45deg);
+}
+
+.quest-type-text {
+    color: white;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.quest-body {
+    padding: 0.75rem;
+}
+
+.quest-title {
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.quest-description {
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+}
+
+.quest-time {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* ============================================================================
+   9. LEADERBOARD MODAL CONTENT
+   ============================================================================ */
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.leaderboard-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-rank {
+    width: 8rem;
+    height: 6rem;
+    background-color: #a78bfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rank-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+}
+
+.leaderboard-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.player-avatar {
+    width: 4rem;
+    height: 4rem;
+    background-color: #d1d5db;
+    border-radius: 50%;
+}
+
+.player-name-group h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.player-email {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.leaderboard-class {
+    padding-right: 2rem;
+}
+
+.class-badge {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+/* ============================================================================
+   10. MOBILE RESPONSIVE
+   ============================================================================ */
+
 @media (max-width: 768px) {
     .navbar {
         padding: 15px 20px;
@@ -455,101 +752,34 @@ body {
         right: 0;
     }
 
-    .logout-btn {
-        margin-top: 10px;
-    }
-
     .logo img {
         height: 40px;
     }
 
-    .main-title {
-        font-size: 60px;
+    .main-container {
+        flex-direction: column;
+        padding: 1rem;
+        margin-top: 60px;
     }
 
-    .subtitle {
-        font-size: 28px;
-    }
-
-    .subtitle img {
-        width: 30px;
-        height: 30px;
-    }
-
-    .content-section {
-        padding: 60px 20px;
-        min-height: auto;
-    }
-
-    .about h1 {
-        font-size: 1.2rem;
+    .sidebar-left,
+    .sidebar-right {
         width: 100%;
     }
 
-    .about img:first-child {
-        width: 40px;
-        margin-top: -30px;
+    .player-card {
+        margin-bottom: 20px;
     }
 
-    .about img:nth-child(2) {
-        width: 200px;
-        margin-bottom: 30px;
+    .event-box {
+        margin-top: 20px;
     }
-
-    .login-btn {
-        font-size: 20px;
-        padding: 16px 32px;
-    }
+}
 
 /* 
 ================================================================================
 END OF DASHBOARD.CSS
 ================================================================================
-
-PENJELASAN CSS STRUCTURE:
-
-1. RESET & BASE:
-   - Universal reset untuk consistent spacing
-   - Body styling dengan background color
-   - Background blur menggunakan fixed positioning & filter
-
-2. NAVBAR:
-   - Flexbox layout untuk horizontal arrangement
-   - Glassmorphism effect dengan backdrop-filter
-   - Hover states untuk interactivity
-
-3. MAIN CONTAINER:
-   - Flexbox dengan 3 kolom layout
-   - Relative positioning untuk z-index layering
-   - Max-width untuk prevent overly wide layout
-
-4. SIDEBARS:
-   - Fixed width untuk consistency
-   - Flexbox column untuk vertical stacking
-   - Background dengan transparency & blur
-
-5. COMPONENTS:
-   - Player card: Level badge dengan circular design
-   - Progress bar: Gradient background dengan smooth animation
-   - Menu buttons: White cards dengan hover lift effect
-   - Diamond icons: Rotated squares untuk unique visual
-   - Announcements: Accordion dengan max-height transition
-
-6. SCROLLBAR:
-   - Custom webkit scrollbar styling
-   - Subtle colors untuk tidak mengganggu visual
-   - Hover state untuk better UX
-
-7. COLOR SCHEME:
-   - Primary: Gray-800 (#1f2937)
-   - Secondary: White dengan opacity variations
-   - Accent: Blue (#60a5fa) & Purple (#a78bfa) gradients
-   - Text: White for dark backgrounds, Dark for light backgrounds
-
-8. TRANSITIONS:
-   - 0.3s ease untuk most interactions
-   - 0.5s ease untuk progress bar (more dramatic)
-   - Transform untuk lift effects on hover
-
+Includes: Base styles, Navbar, Main layout, Sidebars, Modals (Quest & Leaderboard)
 ================================================================================
 */
