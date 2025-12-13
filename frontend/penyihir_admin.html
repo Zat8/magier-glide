@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magier Guide - Penyihir Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel Decorative', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a8a 50%, #1e293b 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 350px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        .logout-btn {
+            padding: 10px 24px;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #1e293b;
+        }
+
+        /* Main Content */
+        main {
+            padding: 50px 0;
+        }
+
+        /* Title Section */
+        .title-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .title-line {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, white);
+        }
+
+        .title-line.right {
+            background: linear-gradient(to left, transparent, white);
+        }
+
+        .title-diamond {
+            width: 12px;
+            height: 12px;
+            background: white;
+            transform: rotate(45deg);
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 8px;
+            border-radius: 12px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #d1d5db;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .tab-btn:hover {
+            color: white;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(71, 85, 105, 0.2);
+        }
+
+        /* Buttons */
+        .tambah-btn {
+            padding: 8px 16px;
+            background: white;
+            border: none;
+            border-radius: 6px;
+            color: black;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .tambah-btn:hover {
+            background: rgb(219, 219, 219);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .edit-btn {
+            padding: 8px 16px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            color: black;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: rgb(98, 98, 98);
+        }
+
+        .delete-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: solid;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            padding: 10px 16px;
+            background: rgba(71, 85, 105, 0.5);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #475569;
+        }
+
+        .page-btn.active {
+            background: white;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+
+        .footer-title {
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .footer-copyright {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 1200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div style="display: flex; align-items: center; gap: 40px;">
+                    <div class="logo">
+                        <img src="asset/foto/logo.png">
+                    </div>
+                    <nav>
+                        <a href="#" class="active">PENYIHIR</a>
+                        <a href="#">MISSIONS</a>
+                        <a href="#">EVENTS</a>
+                        <a href="#">PENGUMUMAN</a>
+                        <a href="#">ACHIEVEMENT</a>
+                    </nav>
+                </div>
+                <button class="logout-btn">LOGOUT</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Title -->
+            <div class="title-section">
+                <div class="title-line"></div>
+                <div class="title-diamond"></div>
+                <h1 class="page-title">Penyihir</h1>
+                <div class="title-diamond"></div>
+                <div class="title-line right"></div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="penyihir">Penyihir Table</button>
+                <button class="tab-btn" data-tab="rank">Rank Table</button>
+                <button class="tab-btn" data-tab="sihir">Sihir Table</button>
+                <button class="tab-btn" data-tab="user-sihir">User - Sihir Table</button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Id</th>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>User Title</th>
+                            <th>Experience</th>
+                            <th>Rank</th>
+                            <th>Role</th>
+                            <th>Ras</th>
+                            <th>Umur</th>
+                            <th>Profile Picture</th>
+                            <th style="text-align: right;">
+                                <button class="tambah-btn">Tambah</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" id="prevBtn">&lt;</button>
+                <button class="page-btn active" data-page="1">1</button>
+                <button class="page-btn" data-page="2">2</button>
+                <button class="page-btn" data-page="3">3</button>
+                <span>...</span>
+                <button class="page-btn" data-page="7">7</button>
+                <button class="page-btn" id="nextBtn">&gt;</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <h2 class="footer-title">MAGIER GUIDE</h2>
+        <p class="footer-copyright">© 2025 Magier Guide. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Data Dummy
+        const dummyData = [
+            {
+                id: 'Users_123',
+                email: 'frieren@gmail.com',
+                username: 'Frieren',
+                userTitle: 'Old Elf',
+                experience: 14700,
+                rank: 1,
+                role: 'Penyihir',
+                ras: 'elf',
+                umur: 3000,
+                profilePicture: 'profile.jpg'
+            },
+            {
+                id: 'Users_124',
+                email: 'fern@gmail.com',
+                username: 'Fern',
+                userTitle: 'Young Mage',
+                experience: 8500,
+                rank: 2,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 18,
+                profilePicture: 'fern.jpg'
+            },
+            {
+                id: 'Users_125',
+                email: 'stark@gmail.com',
+                username: 'Stark',
+                userTitle: 'Warrior',
+                experience: 9200,
+                rank: 3,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 20,
+                profilePicture: 'stark.jpg'
+            },
+            {
+                id: 'Users_126',
+                email: 'heiter@gmail.com',
+                username: 'Heiter',
+                userTitle: 'Priest',
+                experience: 12000,
+                rank: 4,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 65,
+                profilePicture: 'heiter.jpg'
+            },
+            {
+                id: 'Users_127',
+                email: 'eisen@gmail.com',
+                username: 'Eisen',
+                userTitle: 'Dwarf Warrior',
+                experience: 13500,
+                rank: 5,
+                role: 'Penyihir',
+                ras: 'dwarf',
+                umur: 500,
+                profilePicture: 'eisen.jpg'
+            },
+            {
+                id: 'Users_128',
+                email: 'himmel@gmail.com',
+                username: 'Himmel',
+                userTitle: 'Hero',
+                experience: 15000,
+                rank: 6,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 28,
+                profilePicture: 'himmel.jpg'
+            },
+            {
+                id: 'Users_129',
+                email: 'serie@gmail.com',
+                username: 'Serie',
+                userTitle: 'Great Mage',
+                experience: 20000,
+                rank: 7,
+                role: 'Penyihir',
+                ras: 'elf',
+                umur: 5000,
+                profilePicture: 'serie.jpg'
+            },
+            {
+                id: 'Users_130',
+                email: 'flamme@gmail.com',
+                username: 'Flamme',
+                userTitle: 'Legendary Mage',
+                experience: 18000,
+                rank: 8,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 85,
+                profilePicture: 'flamme.jpg'
+            },
+            {
+                id: 'Users_131',
+                email: 'denken@gmail.com',
+                username: 'Denken',
+                userTitle: 'Imperial Mage',
+                experience: 11000,
+                rank: 9,
+                role: 'Penyihir',
+                ras: 'human',
+                umur: 70,
+                profilePicture: 'denken.jpg'
+            }
+        ];
+
+        // Render table data
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            dummyData.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.id}</td>
+                    <td>${user.email}</td>
+                    <td>${user.username}</td>
+                    <td>${user.userTitle}</td>
+                    <td>${user.experience}</td>
+                    <td>${user.rank}</td>
+                    <td>${user.role}</td>
+                    <td>${user.ras}</td>
+                    <td>${user.umur}</td>
+                    <td>${user.profilePicture}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="editUser(${index})">Edit</button>
+                            <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Pagination functionality
+        const pageButtons = document.querySelectorAll('.page-btn[data-page]');
+        pageButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                pageButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Edit function
+        function editUser(index) {
+            const user = dummyData[index];
+            alert(`Edit user: ${user.username}`);
+            // Tambahkan logika edit di sini
+        }
+
+        // Delete function
+        function deleteUser(index) {
+            if (confirm(`Hapus user ${dummyData[index].username}?`)) {
+                dummyData.splice(index, 1);
+                renderTable();
+            }
+        }
+
+        // Initialize
+        renderTable();
+    </script>
+</body>
+</html>
