@@ -1,13 +1,14 @@
 <?php
 session_start();
+require "../component/head-content.php";
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Magier Gilde - Era After Hero</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<?php echo headComponent("Magier Gilde - Era After Hero"); ?>
+
     <link href="./asset/style.css" rel="stylesheet">
     <script src="./asset/script.js" defer></script>
 </head>

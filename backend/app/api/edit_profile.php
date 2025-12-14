@@ -1,7 +1,7 @@
 <?php
 session_start();
 require "../../config/connect.php";
-require "../../core/utils.php";
+require "../../utility/utils.php";
 
 $email = $_SESSION["user"];
 $username = trim($_POST["username"]);

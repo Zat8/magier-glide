@@ -44,7 +44,7 @@ body {
 }
 
 .logo img {
-    height: 70px; 
+    height: 60px; 
     transition: height 0.3s ease; 
 }
 
@@ -66,13 +66,13 @@ body {
     color: white; 
     text-decoration: none; 
     font-family: 'Cinzel Decorative', serif; 
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 650; 
     letter-spacing: 1px; 
     text-transform: uppercase; 
     transition: opacity 0.3s; 
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
--bottom}
+}
 
 .nav-link:hover {
     opacity: 0.7; 

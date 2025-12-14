@@ -1,0 +1,133 @@
+[[event]]
+id = "ev003"
+title = "Starlit Mirage Hunt"
+type = "Limited"
+duration = "18 - 30 Frostveil"
+banner_image = "/assets/banners/starlit_mirage.png"
+
+description = """
+Fenomena ilusi bintang muncul di padang salju, memunculkan bayangan makhluk astral.
+Pemain harus memburu Mirage Cores sebelum fenomena itu menghilang.
+"""
+
+rewards = [
+  "Astral Mantle Cosmetic",
+  "Mirage Core Shards",
+  "Title: Starborn Hunter"
+]
+
+highlight_features = [
+  "Astral Creature Encounter",
+  "Illusion-based Mini-Game",
+  "Limited Mirage Forge Exchange"
+]
+
+[[event]]
+id = "ev_sum01"
+title = "Golden Sun Bloom"
+type = "Seasonal"
+duration = "Full Summer Season"
+
+description = """
+Musim panas memunculkan bunga matahari sihir yang hanya tumbuh di bawah sinar terik.
+Pemain dapat mengikuti rangkaian gathering, membuat elixir panas, dan membantu oasis desa.
+"""
+
+rewards = [
+  "Sunbloom Hat Cosmetic",
+  "Solar Nectar",
+  "Seasonal Gathering Bonus"
+]
+
+highlight_features = [
+  "Oasis Supply Questline",
+  "Summer-exclusive Alchemy Recipes"
+]
+
+[[event]]
+id = "ev_story03"
+title = "The Whisper of Forgotten Wards"
+type = "Story"
+duration = "Permanent"
+
+description = """
+Pemain mempelajari sejarah ward kuno yang digunakan para penyihir era awal.
+Dengan mengikuti jejak ward yang masih aktif, pemain menemukan rahasia pelindung dunia lama.
+"""
+
+rewards = [
+  "Ward Tome Fragment",
+  "Lore Key: Ancient Defenses",
+  "Spell Effect: Rune Pulse"
+]
+
+highlight_features = [
+  "Ward Reconstruction Puzzle",
+  "Cinematic Arcane Ward Sequence"
+]
+
+[[event]]
+id = "ev_story03"
+title = "The Whisper of Forgotten Wards"
+type = "Story"
+duration = "Permanent"
+
+description = """
+Pemain mempelajari sejarah ward kuno yang digunakan para penyihir era awal.
+Dengan mengikuti jejak ward yang masih aktif, pemain menemukan rahasia pelindung dunia lama.
+"""
+
+rewards = [
+  "Ward Tome Fragment",
+  "Lore Key: Ancient Defenses",
+  "Spell Effect: Rune Pulse"
+]
+
+highlight_features = [
+  "Ward Reconstruction Puzzle",
+  "Cinematic Arcane Ward Sequence"
+]
+
+[[event]]
+id = "ev_ch03"
+title = "Mana Instability Rush"
+type = "Challenge"
+duration = "Rotating Weekly"
+
+description = """
+Zona sihir tidak stabil muncul secara acak. Pemain harus menstabilkan titik mana
+dengan cepat sambil menghindari ledakan arcane.
+"""
+
+rewards = [
+  "Instability Token",
+  "Weekly Booster Charm"
+]
+
+highlight_features = [
+  "Fast-paced Stabilization Mechanic",
+  "Hazard Zone Shuffle"
+]
+
+[[event]]
+id = "ev_guild03"
+title = "Continental Beacon Project"
+type = "Guild Event"
+duration = "9 Days"
+
+description = """
+Guild di seluruh benua bekerja sama membangun Beacon Sihir,
+struktur kuno yang dapat memperkuat aliran mana dan memperluas jangkauan teleport lokal.
+"""
+
+rewards = [
+  "Beacon Construction Crate",
+  "Guild Currency Bonus",
+  "Milestone Reward: Teleport Rune Frame"
+]
+
+highlight_features = [
+  "Beacon Progress Bar (Server-wide)",
+  "Guild Construction Tasks",
+  "Community Milestone Unlocks"
+]

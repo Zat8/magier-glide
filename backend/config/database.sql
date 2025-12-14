@@ -1,5 +1,14 @@
 create database if not exists magier_glide;
 
+create table events (
+    event_id INT AUTO_INCREMENT PRIMARY KEY,
+    title varchar(255) not null,
+    banner varchar(255) not null,
+	
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 create table rank_master (
 	rank_level INT PRIMARY KEY,
 	exp_required INT NOT NULL
@@ -34,14 +43,16 @@ CREATE TABLE pengumuman_guild (
 create table users (
 	id varchar(50) not null primary key,
 	username varchar(100) not null,
+	email varchar(100) not null,
 	user_title TEXT,
 	password varchar(255) not null,
 	experience INT NOT NULL DEFAULT 0,
     rank_user INT NOT NULL DEFAULT 1,
 	role ENUM('penyihir', 'resepsionis') NOT NULL DEFAULT 'resepsionis',
-	ras ENUM('elf', 'manusia', 'dwarf', 'half-demon', 'half-monster', 'spirits', 'herioc-spirits') DEFAULT "manusia";
+	ras ENUM('elf', 'manusia', 'dwarf', 'half-demon', 'half-monster', 'spirits', 'herioc-spirits') DEFAULT "manusia",
 	elemen ENUM('api','air', 'angin', 'tanah', 'alam');
 	umur INT,
+	profile_picture varchar(255) DEFAULT "profile-default.png"
 
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -53,7 +64,7 @@ create table quest_master (
 	category_id int not null,
 
     quest_name VARCHAR(100) NOT NULL,
-	objections TEXT,
+    objections TEXT,
     descriptions TEXT,
     duration_seconds INT NOT NULL,
     exp_reward INT NOT NULL,
@@ -374,4 +385,13 @@ INSERT INTO users_achievement (user_id, sihir_id, completed_at) VALUES
 ('user_6937dc3670e4f', 4, CURRENT_TIMESTAMP),
 ('user_6937dc3670e4f', 5, CURRENT_TIMESTAMP);
 
-
+INSERT INTO users  (id, username, email, user_title, password, experience, rank_user, role, ras, elemen, umur) VALUES
+('user_frieren_9xA1', 'Frieren', 'frieren@guild.magic', 'Ancient Mage of the Hero Party', '$2y$dummyhash', 9800, 9, 'penyihir', 'elf', 'alam', 1000),
+('user_fern_8Bq2', 'Fern', 'fern@guild.magic', 'Silent Prodigy Mage', '$2y$dummyhash', 8200, 8, 'penyihir', 'manusia', 'air', 19),
+('user_stark_7Lp3', 'Stark', 'stark@guild.magic', 'Reluctant Warrior', '$2y$dummyhash', 7100, 7, 'penyihir', 'manusia', 'tanah', 20),
+('user_himmel_6Zd4', 'Himmel', 'himmel@guild.magic', 'Hero of the Past', '$2y$dummyhash', 6500, 6, 'penyihir', 'herioc-spirits', 'angin', 26),
+('user_heiter_5Wc5', 'Heiter', 'heiter@guild.magic', 'Priest of Miracles', '$2y$dummyhash', 5200, 5, 'penyihir', 'manusia', 'alam', 28),
+('user_eisen_4Km6', 'Eisen', 'eisen@guild.magic', 'Dwarven Shield', '$2y$dummyhash', 4300, 4, 'penyihir', 'dwarf', 'tanah', 90),
+('user_lawine_3Pp7', 'Lawine', 'lawine@guild.magic', 'Ice Mage Apprentice', '$2y$dummyhash', 3000, 3, 'penyihir', 'manusia', 'air', 18),
+('user_kanne_2Ux8', 'Kanne', 'kanne@guild.magic', 'Water Manipulator', '$2y$dummyhash', 1800, 2, 'penyihir', 'manusia', 'air', 18),
+('user_apprentice_1Vr9', 'Guild Apprentice', 'apprentice@guild.magic', 'New Mage', '$2y$dummyhash', 400, 1, 'penyihir', 'manusia', 'angin', 16);

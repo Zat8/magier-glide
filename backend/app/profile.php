@@ -1,7 +1,10 @@
 <?php
 session_start();
 require "../config/connect.php";
-require "../core/utils.php";
+require "../utility/utils.php";
+require "../cores/users-util.php";
+require "../cores/rank-util.php";
+require "../component/head-content.php";
 
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
@@ -9,21 +12,8 @@ if (!isset($_SESSION['user'])) {
 }
 
 $email = $_SESSION['user'];
-$query = "select * from users where email = ?";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "s", $email);
-mysqli_stmt_execute($stmt);
-
-$result = mysqli_stmt_get_result($stmt);
-$user = mysqli_fetch_assoc($result);
-
-$stmt = mysqli_prepare($conn, "select * from rank_master where rank_level = ?");
-mysqli_stmt_bind_param($stmt, "i", $user["rank_user"]);
-mysqli_stmt_execute($stmt);
-
-$result = mysqli_stmt_get_result($stmt);
-$ranked = mysqli_fetch_assoc($result);
-
+$user = getUser($conn, $email);
+$ranked = getRankMasterByLevel($conn, $user["rank_user"]);
 
 // ------------
 $stmt = mysqli_prepare($conn, "
@@ -61,10 +51,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Frieren</title>
-    <link href="asset/profil.css" rel="stylesheet">
+	<?php echo headComponent("Profile - Frieren"); ?>
+
+	<link href="asset/profil.css" rel="stylesheet">
     <script src="asset/profil.js" defer></script>
 </head>
 <body>
