@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "../config/connect.php";
+require "../cores/starter-utils.php";
 
 $error = null;
 
@@ -19,7 +20,15 @@ if(isset($_POST["register"])) {
 	mysqli_stmt_bind_param($stmt, "ssssisss", $id, $email, $username, $password, $umur, $elemen, $ras, $user_title);
 
 	if (mysqli_stmt_execute($stmt)) {
-        $_SESSION['message'] = "Registration successful. Please login.";
+		$_SESSION['message'] = "Registration successful. Please login.";
+		addSihir($conn, $id, 45);
+		addSihir($conn, $id, 46);
+		addSihir($conn, $id, 47);
+
+		addAchievement($conn, $id, 35);
+		addAchievement($conn, $id, 36);
+		addAchievement($conn, $id, 37);
+
         header("Location: login.php");
         exit;
     } else {
