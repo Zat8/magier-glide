@@ -271,6 +271,15 @@ body {
     transition: transform 0.3s ease;
 }
 
+.quest-card.taken {
+	opacity: .5;
+	cursor: unset;
+}
+
+.quest-card.taken:hover {
+	transform: none;
+}
+
 .quest-card:hover {
     transform: scale(1.02);
 }
@@ -556,3 +565,45 @@ body {
         font-size: 20px;
         padding: 16px 32px;
     }
+}
+
+
+.notif {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+
+    background: #1f2933;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    width: 300px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
+
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+
+    transition: all 0.4s ease;
+    z-index: 9999;
+}
+
+.notif.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.notif strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.notif p {
+    margin: 0;
+    font-size: 16px;
+}
+
+

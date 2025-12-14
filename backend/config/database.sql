@@ -74,40 +74,66 @@ create table quest_master (
 
 -- relasi tabel begitulah --
 
-create table users_sihir (
-	id INT AUTO_INCREMENT not null PRIMARY KEY,
-    user_id varchar(100) NOT NULL,
-    sihir_id INT NOT NULL,
-    acquired_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE users_sihir (
+    id INT AUTO_INCREMENT PRIMARY KEY,
 
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (sihir_id) REFERENCES sihir_master(sihir_id) ON DELETE CASCADE
+    user_id varchar(50) NOT NULL,
+    sihir_id INT NOT NULL,
+    acquired_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uniq_user_sihir (user_id, sihir_id),
+    CONSTRAINT fk_us_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_us_sihir
+        FOREIGN KEY (sihir_id) REFERENCES sihir_master(sihir_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE users_achievement (
-    id INT AUTO_INCREMENT not null PRIMARY KEY,
-    user_id varchar(100) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id varchar(50) NOT NULL,
     achievement_id INT NOT NULL,
-    completed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (achievement_id) REFERENCES achievement_master(achievement_id) ON DELETE CASCADE
+    completed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uniq_user_achievement (user_id, achievement_id),
+
+    CONSTRAINT fk_ua_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_ua_achievement
+        FOREIGN KEY (achievement_id) REFERENCES achievement_master(achievement_id)
+        ON DELETE CASCADE
 );
 
-create table users_quests (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id varchar(100) NOT NULL,
+CREATE TABLE users_quests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id varchar(50) NOT NULL,
     quest_id INT NOT NULL,
-    
-    status ENUM('not_started', 'in_progress', 'completed') NOT NULL DEFAULT 'not_started',
 
-    start_time DATETIME NULL,
-    finish_time DATETIME NULL,
+    status ENUM('not_started', 'in_progress', 'completed') NOT NULL DEFAULT 'in_progress',
 
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (quest_id) REFERENCES quest_master(quest_id) ON DELETE CASCADE
+    start_time DATETIME NOT NULL,
+    finish_time DATETIME NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uniq_user_quest (user_id, quest_id),
+
+    CONSTRAINT fk_uq_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_uq_quest
+        FOREIGN KEY (quest_id) REFERENCES quest_master(quest_id)
+        ON DELETE CASCADE
 );
-
 
 -- kita insert kan --
 INSERT INTO rank_master (rank_level, exp_required) VALUES
@@ -168,7 +194,7 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Flagrate", "Menulis di udara menggunakan api"),
 ("Inferno", "Membuat pilar api yang sangat besar dan sangat panas"),
 ("Conflagrate", "Mengutuk target dengan api yang tak bisa padam hingga target musnah");
--- Sihir Elemen
+
 ("Ice Lance", "Membentuk tombak es yang ditembakkan dengan kecepatan tinggi untuk menusuk musuh."),
 ("Frost Bind", "Membekukan kaki target dan membuatnya tidak dapat bergerak sementara."),
 ("Blizzard Veil", "Menciptakan badai salju kecil untuk menyamarkan pergerakan pengguna."),
@@ -180,7 +206,6 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Earth Shackles", "Mengikat target menggunakan akar dan tanah di sekitarnya."),
 ("Terra Spike", "Menghentakkan tanah dan memunculkan pilar batu di bawah target."),
 
--- Sihir Pelindung & Utility
 ("Mana Shield", "Perisai sihir yang menyerap sejumlah damage berdasarkan mana pengguna."),
 ("Barrier Dome", "Menciptakan kubah pelindung yang kuat di sekitar area kecil."),
 ("Detection Field", "Mendeteksi kehadiran makhluk hidup atau sihir dalam radius tertentu."),
@@ -191,7 +216,6 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Arcane Light", "Menciptakan cahaya yang mengikuti pengguna."),
 ("Mana Thread", "Menghubungkan objek dengan benang sihir untuk mengendalikannya dari jauh."),
 
--- Sihir Frieren-style Unik & Absurd (sesuai vibe manga)
 ("Flower Bloom", "Membuat bunga bermekaran di sekitar pengguna, biasanya digunakan hanya untuk estetika."),
 ("Clean Sweep", "Membersihkan area dari debu dan kotoran seketika."),
 ("Warm Tea", "Memanaskan sebuah cangkir teh secara sempurna dengan sihir."),
@@ -203,7 +227,6 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Sound Muffling", "Meredam suara di sekitar pengguna."),
 ("Insect Repel", "Menghasilkan bau sihir tak kasat mata yang mengusir serangga."),
 
--- Sihir Kuno / Sihir Tingkat Tinggi
 ("Ancient Seal", "Menyegel monster atau artefak berbahaya untuk waktu yang lama."),
 ("Astral Projection", "Memisahkan kesadaran dari tubuh untuk menjelajahi area tertentu."),
 ("Chrono Step", "Mengganggu alur waktu singkat untuk bergerak lebih cepat dari penglihatan biasa."),
@@ -214,6 +237,10 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Arcane Burst", "Ledakan energi murni dari mana yang dimaterialisasi."),
 ("Phantom Mirage", "Menciptakan ilusi tiga dimensi yang sangat realistis."),
 ("Eternal Rune", "Mengukir rune sihir yang aktif secara permanen sampai dihancurkan.");
+
+
+
+
 
 INSERT INTO quest_master (category_id, quest_name, objections, descriptions, duration_seconds, exp_reward) VALUES
 (1, "Herb For Healing",
@@ -244,7 +271,28 @@ INSERT INTO quest_master (category_id, quest_name, objections, descriptions, dur
 (1, "Dawn Mushroom Forage",
  "Kumpulkan 3 jamur bercahaya.",
  "Jamur bercahaya tumbuh di area hutan gelap pada dini hari. Cahaya birunya dapat digunakan sebagai bahan ramuan.",
- 170, 24);
+170, 24),
+(1,"Forest Mana Survey","Jelajahi 3 titik mana hutan","Aliran mana di hutan barat berubah perlahan dan perlu dicatat.",180,22),
+(1,"Ancient Flower Bloom","Kumpulkan 4 bunga kuno","Bunga langka mekar hanya dalam waktu singkat setelah hujan.",200,24),
+(1,"Cave Light Crystal","Ambil 3 kristal cahaya","Kristal bercahaya ditemukan di gua dangkal.",210,26),
+(1,"Riverbank Herb","Kumpulkan 5 herbal sungai","Herbal tumbuh di sepanjang sungai dengan mana stabil.",160,20),
+(1,"Fallen Rune Fragment","Cari 2 fragmen rune","Rune tua terkubur di tanah berlumut.",190,23),
+(1,"Morning Fog Essence","Kumpulkan 3 esensi kabut","Kabut pagi menyimpan residu mana.",150,21),
+(1,"Old Camp Remains","Periksa sisa perkemahan","Jejak petualang lama masih tertinggal.",170,22),
+(1,"Wind Mana Spot","Temukan 3 pusaran angin","Angin membawa aliran mana kecil.",200,25),
+(1,"Sunlit Stone","Ambil 2 batu bercahaya","Batu ini menyerap cahaya matahari.",140,19),
+(1,"Abandoned Well","Selidiki sumur tua","Sumur lama menyimpan aura samar.",180,23),
+(1,"Glowing Moss","Kumpulkan 4 lumut bercahaya","Lumut ini digunakan untuk ramuan ringan.",160,20),
+(1,"Forest Boundary Check","Jelajahi batas hutan","Pastikan tidak ada distorsi mana.",210,27),
+(1,"Crystal Leaf","Kumpulkan 3 daun kristal","Daun mengeras oleh mana alam.",170,24),
+(1,"Old Signpost","Temukan tanda arah lama","Petunjuk jalur lama guild.",150,18),
+(1,"Hilltop Survey","Survey puncak bukit","Pandangan luas untuk pemetaan.",240,28),
+(1,"Faint Mana Echo","Cari 2 gema mana","Resonansi kecil terdeteksi.",200,26),
+(1,"Hidden Stream","Temukan aliran tersembunyi","Airnya mengandung mana murni.",220,29),
+(1,"Forest Relic","Ambil 1 relik kecil","Relik peninggalan mage lama.",260,30),
+(1,"Moonlit Clearing","Amati area cahaya bulan","Mana aktif saat malam.",240,28),
+(1,"Stone Circle","Periksa lingkaran batu","Formasi ritual kuno.",300,30);
+
 
 INSERT INTO quest_master (category_id, quest_name, objections, descriptions, duration_seconds, exp_reward) VALUES
 (2, "Escort Young Mage",
@@ -275,7 +323,27 @@ INSERT INTO quest_master (category_id, quest_name, objections, descriptions, dur
 (2, "Healing Herb Delivery",
  "Kirimkan 3 kantong herbal.",
  "Penyembuh lokal membutuhkan bahan mentah dengan segera. Kamu harus mengantar tumbuhan tersebut sebelum layu.",
- 150, 27);
+150, 27),
+(2,"Escort Herb Collector","Antar pengumpul herbal","Perjalanan melewati jalur aman.",220,30),
+(2,"Village Supply Run","Kirim suplai desa","Desa kecil membutuhkan pasokan.",240,32),
+(2,"Mage Apprentice Training","Dampingi latihan","Pastikan latihan berjalan aman.",200,28),
+(2,"Scroll Transport","Antar gulungan sihir","Dokumen rapuh harus dijaga.",260,34),
+(2,"Night Watch Escort","Temani patroli malam","Mencegah gangguan monster.",300,36),
+(2,"Scholar Journey","Antar peneliti","Peneliti menghindari ilusi.",280,33),
+(2,"Lantern Bearer","Jaga lentera mana","Lentera tidak boleh padam.",260,35),
+(2,"Medicine Caravan","Kawal karavan medis","Jalur panjang dan sepi.",360,40),
+(2,"Training Equipment Delivery","Kirim alat latihan","Peralatan berat dan mahal.",220,31),
+(2,"Library Guard Duty","Jaga perpustakaan","Malam hari rawan gangguan.",300,34),
+(2,"Child Escort","Antar anak desa","Perjalanan singkat tapi penting.",180,28),
+(2,"Potion Shipment","Kawal ramuan","Botol mudah pecah.",240,32),
+(2,"Magic Tool Transfer","Pindahkan alat sihir","Alat tidak boleh aktif.",280,35),
+(2,"Forest Crossing Guide","Pandu jalur hutan","Hutan dipenuhi ilusi.",300,38),
+(2,"Supply Wagon Escort","Kawal gerobak","Gerobak sering macet.",360,42),
+(2,"Apprentice Return","Antar murid pulang","Perjalanan sore hari.",200,29),
+(2,"Village Night Lamp","Pasang lentera desa","Pekerjaan malam.",240,31),
+(2,"Sacred Item Escort","Kawal benda suci","Aura kuat menarik monster.",420,45),
+(2,"Training Scroll Return","Kembalikan gulungan","Waktu terbatas.",260,34),
+(2,"Guild Message Delivery","Antar pesan guild","Pesan bersifat rahasia.",180,28);
 
 INSERT INTO quest_master (category_id, quest_name, objections, descriptions, duration_seconds, exp_reward) VALUES
 (3, "Mana Distortion Check",
@@ -306,56 +374,72 @@ INSERT INTO quest_master (category_id, quest_name, objections, descriptions, dur
 (3, "Ruins Scripture Decode",
  "Susun 4 potongan simbol menjadi urutan benar.",
  "Tulisan kuno ditemukan pada dinding reruntuhan. Memahaminya bisa membuka rahasia sihir lama.",
- 300, 50);
+300, 50),
+
+(3,"Mana Pulse Scan","Scan 3 pulsa mana","Pulsa muncul berkala.",260,38),
+(3,"Ancient Rune Study","Analisis 2 rune","Rune mulai aktif kembali.",300,42),
+(3,"Illusion Residue","Kumpulkan residu ilusi","Jejak sihir tersisa.",280,40),
+(3,"Sound Origin Trace","Lacak sumber suara","Suara muncul acak.",320,44),
+(3,"Fog Density Test","Uji kepadatan kabut","Kabut mengganggu navigasi.",300,41),
+(3,"Old Magic Circle","Teliti lingkaran sihir","Lingkaran tak aktif.",260,39),
+(3,"Mana Leak Detection","Temukan kebocoran mana","Mana mengalir liar.",340,45),
+(3,"Ruins Echo Mapping","Petakan gema reruntuhan","Suara berulang.",360,46),
+(3,"Arcane Signal","Identifikasi sinyal sihir","Sinyal tidak stabil.",300,43),
+(3,"Mirror Lake Illusion","Selidiki danau","Pantulan aneh muncul.",320,44),
+(3,"Ancient Script Copy","Salin teks kuno","Tulisan rapuh.",280,40),
+(3,"Mana Crystal Test","Uji kristal mana","Kristal bereaksi aneh.",300,42),
+(3,"Lost Spell Trace","Cari jejak mantra","Mantra lama tertinggal.",360,48),
+(3,"Mana Weather Study","Catat cuaca mana","Perubahan mendadak.",300,43),
+(3,"Ruins Symbol Decode","Dekode simbol","Butuh ketelitian.",360,47),
+(3,"Arcane Footprint","Telusuri jejak sihir","Jejak samar.",280,39),
+(3,"Mana Node Survey","Survey node mana","Node mulai aktif.",340,45),
+(3,"Illusion Source Confirm","Konfirmasi sumber ilusi","Data belum lengkap.",360,48),
+(3,"Ancient Barrier Check","Periksa penghalang","Penghalang melemah.",420,52),
+(3,"Forbidden Rune Alert","Investigasi rune terlarang","Rune berbahaya.",480,55);
+
+
+
+
+
 
 INSERT INTO pengumuman_guild (title, content) VALUES
--- 1
 ("Perekrutan Penyihir Baru",
  "Guild sedang membuka perekrutan anggota baru untuk divisi eksplorasi. 
   Penyihir dengan spesialisasi elemen dasar seperti api, air, dan ilusi sangat dibutuhkan."),
 
--- 2
 ("Gangguan Mana di Hutan Utara",
  "Telah terdeteksi fluktuasi mana tidak stabil di Hutan Utara. 
   Semua anggota diminta berhati-hati dan tidak melakukan perjalanan sendirian."),
 
--- 3
 ("Laporan Tentang Monster Ilusi",
  "Beberapa warga melaporkan penampakan monster berbentuk siluet di sekitar Danau Tieg. 
   Divisi Investigasi diminta menindaklanjuti."),
 
--- 4
 ("Distribusi Ramuan Penyembuh",
  "Stok ramuan penyembuh baru tiba dari penyihir alkimia. 
   Anggota yang sedang menjalankan quest berbahaya dapat mengambil jatah mereka di gudang bawah tanah."),
 
--- 5
 ("Turnamen Sihir Tahunan",
  "Guild akan mengadakan Turnamen Sihir Tahunan bulan depan. 
   Anggota dapat mendaftar mulai hari ini. 
   Pemenang akan mendapatkan gelar kehormatan dan hadiah sihir kuno."),
 
--- 6
 ("Peringatan Ancaman Demon Remnant",
  "Fragmen aura iblis terdeteksi di reruntuhan timur. 
   Dilarang keras mendekati area tersebut tanpa izin langsung dari ketua dewan penyihir."),
 
--- 7
 ("Permintaan Bantuan Desa Fernheim",
  "Desa Fernheim meminta bantuan untuk memeriksa anomali cuaca ekstrem. 
   Penyihir spesialis analisis sihir alam diprioritaskan."),
 
--- 8
 ("Pengiriman Gulungan Sihir Kuno",
  "Pustakawan guild membutuhkan bantuan untuk memindahkan gulungan sihir kuno ke ruang penyimpanan baru. 
   Tugas ini terbuka untuk anggota peringkat Apprentice ke atas."),
 
--- 9
 ("Krisis Embun Kristal",
  "Embun kristal yang dibutuhkan untuk ritual pemurnian tahunan mengalami penurunan drastis. 
   Semua anggota eksplorasi diminta membantu pengumpulan untuk minggu ini."),
 
--- 10
 ("Larangan Eksperimen Sihir Berbahaya",
  "Beberapa anggota melakukan percobaan sihir tingkat tinggi tanpa pengawasan. 
   Hal ini sangat membahayakan struktur ruang guild. 
@@ -370,20 +454,6 @@ INSERT INTO sihir_master (sihir_name, descriptions) VALUES
 ("Spark Flicker", "Percikan api kecil sebagai latihan dasar manipulasi mana."),
 ("Minor Shield", "Perisai tipis yang hanya mampu menahan serangan kecil."),
 ("Mana Breeze", "Hembusan angin lemah untuk latihan kontrol sihir.");
-
-INSERT INTO users_achievement (user_id, achievement_id, completed_at) VALUES
-('user_6937dc3670e4f', 1, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 2, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 3, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 4, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 5, CURRENT_TIMESTAMP);
-
-INSERT INTO users_achievement (user_id, sihir_id, completed_at) VALUES
-('user_6937dc3670e4f', 1, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 2, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 3, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 4, CURRENT_TIMESTAMP),
-('user_6937dc3670e4f', 5, CURRENT_TIMESTAMP);
 
 INSERT INTO users  (id, username, email, user_title, password, experience, rank_user, role, ras, elemen, umur) VALUES
 ('user_frieren_9xA1', 'Frieren', 'frieren@guild.magic', 'Ancient Mage of the Hero Party', '$2y$dummyhash', 9800, 9, 'penyihir', 'elf', 'alam', 1000),

@@ -27,6 +27,7 @@ $list_leaderboard = getLeaderboard($conn);
 <body>
     <!-- Background blur container -->
     <div class="background-blur"></div>
+    <div class="background-overlay"></div>
 
     <!-- NAVBAR -->
 	<?php include "../component/navbar.php"; ?> 
@@ -93,10 +94,11 @@ $list_leaderboard = getLeaderboard($conn);
         <div class="modal-content modal-quest">
             <div class="modal-header">
                 <div class="modal-title-group">
-                    <div class="title-diamond"></div>
                     <h2 class="modal-title">Quest</h2>
                 </div>
-                <button class="btn-close" id="closeQuestModal">&times;</button>
+				<button class="btn-close" id="closeQuestModal">
+					<img src="asset/foto/4dm.png">
+				</button>
             </div>
             <div class="modal-body">
                 <!-- In Progress Section -->
@@ -109,7 +111,7 @@ $list_leaderboard = getLeaderboard($conn);
                         <span class="section-count" id="inProgressCount">0</span>
                     </div>
                     <div class="quest-grid" id="questInProgress">
-                        <!-- Quest cards akan di-generate oleh JavaScript -->
+						<!-- Quest cards akan di-generate oleh JavaScript -->
                     </div>
                 </div>
 
@@ -134,10 +136,11 @@ $list_leaderboard = getLeaderboard($conn);
         <div class="modal-content modal-leaderboard">
             <div class="modal-header">
                 <div class="modal-title-group">
-                    <div class="title-diamond"></div>
                     <h2 class="modal-title">Leaderboard</h2>
                 </div>
-                <button class="btn-close" id="closeLeaderboardModal">&times;</button>
+				<button class="btn-close" id="closeLeaderboardModal">
+					<img src="asset/foto/4dm.png">
+				</button>
             </div>
             <div class="modal-body">
                 <div class="leaderboard-list" id="leaderboardList">
@@ -167,7 +170,20 @@ $list_leaderboard = getLeaderboard($conn);
                 </div>
             </div>
         </div>
-    </div>
+	</div>
+
+	<div id="reward-overlay" class="reward-overlay hidden">
+	  <div class="reward-popup">
+		<h2 class="reward-title">Reward Unlocked</h2>
+
+		<div class="reward-content">
+		  <div class="reward-icon">Reward</div>
+		  <div class="reward-text"></div>
+		</div>
+
+		<button class="reward-btn" onclick="closeRewardPopup()">OK</button>
+	  </div>
+	</div>
 
 
 	<!-- Link ke JavaScript -->

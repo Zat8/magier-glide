@@ -35,8 +35,8 @@ if (!empty($_FILES['image']['name'])) {
     mysqli_stmt_bind_param($stmt, "ss", $newName, $email);
 	mysqli_stmt_execute($stmt);
 
-	if ($oldImage !== 'profil-default.png' && file_exists("../../upload/$oldImage")) {
-        unlink("uploads/$oldImage");
+	if ($oldImage !== 'profil-default.png' && file_exists("../../upload/profile/$oldImage")) {
+		unlink("../../upload/profile/$oldImage");
     }
 }
 

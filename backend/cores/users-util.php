@@ -12,6 +12,18 @@ function getUser($conn, $email) {
 	return $user;
 }
 
+function getUserById($conn, $user_id) {
+	$query = "select * from users where id = ?";
+	$stmt = mysqli_prepare($conn, $query);
+	mysqli_stmt_bind_param($stmt, "s", $user_id);
+	mysqli_stmt_execute($stmt);
+
+	$result = mysqli_stmt_get_result($stmt);
+	$user = mysqli_fetch_assoc($result);
+
+	return $user;
+}
+
 function getUserAll($conn) {
 	$query = "select * from users";
 	$stmt = mysqli_prepare($conn, $query);

@@ -39,9 +39,17 @@ if(isset($_POST["register"])) {
     $user = mysqli_fetch_assoc($result);
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user'] = $user['email'];
-        header("Location: dashboard.php");
-        exit;
+		$_SESSION['user'] = $user['email'];
+		$_SESSION['user_id'] = $user['id'];
+		$_SESSION['user_role'] = $user['role'];
+
+		if($user['role'] === 'resepsionis') {
+			header("Location: ./admin/index.php");
+			exit;
+		} else {
+			header("Location: dashboard.php");
+			exit;
+		}
     } else {
         $error = "Invalid email or password.";
     }

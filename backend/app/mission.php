@@ -77,7 +77,6 @@ if (!isset($_SESSION['user'])) {
 
             <h3 class="modal-subtitle" id="modalSubtitle">Exploration Quest</h3>
 
-            <!-- Modal Body -->
             <div class="modal-body">
                 <h2 class="modal-title" id="modalTitle">Quest Title</h2>
                 <div class="modal-objective">
@@ -86,11 +85,14 @@ if (!isset($_SESSION['user'])) {
                 <p class="modal-description" id="modalDescription">Quest details description</p>
             </div>
 
-            <!-- Modal Footer -->
             <div class="modal-footer">
                 <button class="btn-take-quest" id="btnTakeQuest">Ambil Quest</button>
             </div>
         </div>
+	</div>
+
+	<div id="notification" class="notif">
+		<p class="msg"></p>
 	</div>
 
     <script type="module" src="asset/misi.js"></script>

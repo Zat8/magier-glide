@@ -65,84 +65,8 @@ function toggleAnnouncement(index) {
 // ============================================================================
 
 const questsData = {
-    inProgress: [
-        {
-            id: 1,
-            type: 'exploration',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 2,
-            type: 'escort',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 3,
-            type: 'investigation',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 4,
-            type: 'exploration',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 5,
-            type: 'escort',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 6,
-            type: 'investigation',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 7,
-            type: 'exploration',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        },
-        {
-            id: 8,
-            type: 'escort',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.',
-            time: '00:02:00'
-        }
-    ],
-    done: [
-        {
-            id: 9,
-            type: 'exploration',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
-        },
-        {
-            id: 10,
-            type: 'escort',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
-        },
-        {
-            id: 11,
-            type: 'investigation',
-            title: 'Herb For Healing',
-            description: 'Mengumpulkan 5 tanaman Lichtblume yang hanya tumbuh saat pagi berkabut.'
-        }
-    ]
+    inProgress: [],
+    done: []
 };
 
 function capitalizeFirst(str) {
@@ -151,19 +75,30 @@ function capitalizeFirst(str) {
 
 function createQuestCard(quest, showTime = false) {
     return `
-        <div class="quest-card">
-            <div class="quest-type ${quest.type}">
+        <div class="quest-card"
+			 data-quest-id="${quest.quest_id}"
+			 data-console="console"
+             data-finish-time="${quest.finish_time}">
+
+            <div class="quest-type ${quest.category_name}">
                 <div class="quest-diamond"></div>
-                <span class="quest-type-text">${capitalizeFirst(quest.type)}</span>
+                <span class="quest-type-text">
+                    ${capitalizeFirst(quest.category_name)}
+                </span>
             </div>
+
             <div class="quest-body">
-                <h3 class="quest-title">${quest.title}</h3>
-                <p class="quest-description">${quest.description}</p>
-                ${showTime ? `<p class="quest-time">Waktu: ${quest.time}</p>` : ''}
+                <h3 class="quest-title">${quest.quest_name}</h3>
+                <p class="quest-description">${quest.descriptions}</p>
+
+                ${showTime
+                  ? `<p class="quest-time">Sisa waktu: <span class="quest-timer">--:--</span></p>`
+                  : ''}
             </div>
         </div>
     `;
 }
+
 
 function renderQuests() {
     const inProgressContainer = document.getElementById('questInProgress');
@@ -171,13 +106,13 @@ function renderQuests() {
     const inProgressCount = document.getElementById('inProgressCount');
     const doneCount = document.getElementById('doneCount');
 
-    if (!inProgressContainer) {
+    if (inProgressContainer) {
         inProgressContainer.innerHTML = questsData.inProgress
             .map(quest => createQuestCard(quest, true))
             .join('');
     }
 
-    if (!doneContainer) {
+    if (doneContainer) {
         doneContainer.innerHTML = questsData.done
             .map(quest => createQuestCard(quest, false))
             .join('');
@@ -189,13 +124,129 @@ function renderQuests() {
 
     if (doneCount) {
         doneCount.textContent = questsData.done.length;
-    }
+	}
+
+	startGlobalQuestTimer();
+}
+
+async function loadQuestWithUser() {
+	const res = await fetch("api/list_misi_user.php");
+	const data = await res.json();
+
+	questsData.inProgress = data["inProgress"];
+	questsData.done = data["done"];
+}
+
+let questTimerInterval = null;
+
+function startGlobalQuestTimer() {
+    if (questTimerInterval) return;
+
+    questTimerInterval = setInterval(() => {
+		const now = Date.now();
+
+        document
+          .querySelectorAll('.quest-card[data-finish-time]')
+          .forEach(card => {
+            const finishTime = new Date(card.dataset.finishTime.replace(" ", "T"));
+            const timerEl = card.querySelector('.quest-timer');
+			let remaining = finishTime - now;
+
+            if (!timerEl) return;
+
+            if (remaining <= 0) {
+                timerEl.textContent = 'Selesai';
+                card.removeAttribute('data-finish-time');
+
+                finishQuest(card.dataset.questId);
+                return;
+            }
+
+            timerEl.textContent = formatTime(remaining);
+        });
+
+    }, 1000);
+}
+
+function moveQuestToDone(questId) {
+    const index = questsData.inProgress.findIndex(
+        q => String(q.quest_id) === String(questId)
+    );
+
+    if (index === -1) return;
+
+    const [quest] = questsData.inProgress.splice(index, 1);
+
+    quest.status = 'done';
+    delete quest.finish_time;
+
+    questsData.done.push(quest);
+
+    renderQuests();
 }
 
 
-// ============================================================================
-// 6. MODAL MANAGEMENT
-// ============================================================================
+function formatTime(diff) {
+    const hours = String(Math.floor(diff / 3600000)).padStart(2, "0");
+    const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
+	const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");    
+
+	return `${hours}:${minutes}:${seconds}`;
+}
+
+function showRewardPopup(reward) {
+	const overlay = document.getElementById('reward-overlay');
+	const textEl = overlay.querySelector('.reward-text');
+	const iconEl = overlay.querySelector('.reward-icon');
+
+	switch (reward.type) {
+	case 'achievement':
+	  iconEl.textContent = 'Achievement';
+	  textEl.textContent = `Achievement Unlocked: ${reward.data.name}`;
+	  break;
+
+	case 'sihir':
+	  iconEl.textContent = 'Sihir';
+	  textEl.textContent = `New Sihir Acquired: ${reward.data.name}`;
+	  break;
+
+	case 'exp':
+	  iconEl.textContent = 'Experience';
+	  textEl.textContent = `You gained ${reward.data.exp} EXP`;
+	  break;
+	}
+
+	overlay.classList.remove('hidden');
+}
+
+function closeRewardPopup() {
+  document.getElementById('reward-overlay')
+    .classList.add('hidden');
+}
+
+
+function finishQuest(questId) {
+	const formData = new FormData();
+	formData.append("quest_id", questId);
+
+    fetch('api/finish_quest.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+			moveQuestToDone(questId);
+
+			if (data.reward) {
+        		showRewardPopup(data.reward);
+      		}
+        } else {
+            console.warn(data.message);
+        }
+    });
+}
+
 
 function showModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -299,8 +350,29 @@ function littleAnim() {
 
 }
 
+function playMusic() {
+	const ctx = new AudioContext();
+	const audio = new Audio("asset/music/bgmusic.mp3");
+	audio.volume = 0.03;
+	const source = ctx.createMediaElementSource(audio);
+	source.connect(ctx.destination);
+
+	document.addEventListener("click", async () => {
+	  if (ctx.state === "suspended") {
+		await ctx.resume();
+	  }
+	  audio.play();
+	}, { once: true });
+}
+
+
+
+
 window.toggleAnnouncement = toggleAnnouncement;
 async function initDashboard() {
+	// playMusic();
+	loadQuestWithUser();
+	renderQuests();
 	littleAnim();
     setupModals();
 	renderAnnouncements();

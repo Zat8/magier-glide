@@ -11,7 +11,14 @@
 		</div>
 		
 		<ul class="nav-menu" id="navMenu">
+			
 			<li><a href="index.php" class="nav-link">HOME</a></li>
+			<?php 
+				if(isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "resepsionis") {
+					echo '<li><a href="admin" class="nav-link">ADMIN</a></li>';
+				}
+			?>
+
 			<li><a href="dashboard.php" class="nav-link">DASHBOARD</a></li>
 			<li><a href="mission.php" class="nav-link">MISSIONS</a></li>
 			<li><a href="profile.php" class="nav-link">PROFILE</a></li>
