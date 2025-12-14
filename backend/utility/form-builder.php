@@ -5,13 +5,15 @@
  * Nyuri ide dikit dari filament 
  */ 
 
-function update_dynamic(mysqli $conn, string $table, array $schema, array $post, int $id, string $id_name = "id") {
+require_once "utils.php";
+
+function update_dynamic(mysqli $conn, string $table, array $schema, array $post, int|string $id, string $id_name = "id") {
     $set = [];
     $types = '';
     $values = [];
 
     foreach ($schema as $col) {
-        if ($col['COLUMN_KEY'] === 'PRI') continue;
+		if ($col['COLUMN_KEY'] === 'PRI') continue;
 
         $name = $col['COLUMN_NAME'];
         if (!isset($post[$name])) continue;
@@ -26,7 +28,7 @@ function update_dynamic(mysqli $conn, string $table, array $schema, array $post,
         };
     }
 
-    $types .= 'i';
+    $types .= is_string($id) ? "s" : "i";
     $values[] = $id;
 
     $sql = "UPDATE $table SET " . implode(',', $set) . " WHERE $id_name = ?";
@@ -37,14 +39,16 @@ function update_dynamic(mysqli $conn, string $table, array $schema, array $post,
 }
 
 
-function fetch_by_id(mysqli $conn, string $table, int $id, string $id_name = "id"): array|null {
-    $sql = "SELECT * FROM $table WHERE $id_name = ? LIMIT 1";
+function fetch_by_id(mysqli $conn, string $table, int|string $id, string $id_name = "id"): array|null {
+	$sql = "SELECT * FROM $table WHERE $id_name = ? LIMIT 1";
+
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_bind_param($stmt, is_string($id) ? "s" : "i", $id);
     mysqli_stmt_execute($stmt);
 
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_assoc($result) ?: null;
+	$result = mysqli_stmt_get_result($stmt);
+	$data = mysqli_fetch_assoc($result);
+	return $data;
 }
 
 
@@ -68,7 +72,7 @@ function insert_dynamic(mysqli $conn, string $table, array $schema, array $post)
     $values = [];
 
     foreach ($schema as $col) {
-        if ($col['EXTRA'] === 'auto_increment') continue;
+		if ($col['EXTRA'] === 'auto_increment') continue;
 
         $name = $col['COLUMN_NAME'];
         if (!isset($post[$name])) continue;
@@ -156,8 +160,7 @@ function fetch_fk_options(mysqli $conn, string $table, string $id_col): array {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function validate_from_schema(array $schema, array $input): array
-{
+function validate_from_schema(array $schema, array $input): array {
     $errors = [];
 
     foreach ($schema as $col) {
@@ -187,6 +190,40 @@ function validate_from_schema(array $schema, array $input): array
     return $errors;
 }
 
+function handle_image_upload(
+    string $field,
+    string $upload_dir = '../../../../upload/profile',
+    int $quality = 75
+): ?string {
+
+    if (
+        !isset($_FILES[$field]) ||
+        $_FILES[$field]['error'] !== UPLOAD_ERR_OK
+    ) {
+        return null;
+    }
+
+    $tmp  = $_FILES[$field]['tmp_name'];
+    $name = $_FILES[$field]['name'];
+
+    $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+        return null;
+    }
+
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
+    }
+
+    $filename = uniqid($field . '_') . '.' . $ext;
+    $dest = rtrim($upload_dir, '/') . '/' . $filename;
+
+    compress_image($tmp, $dest, $quality);
+
+    return $filename;
+}
+
+
 function generate_form($conn, array $schema, array $foreign_keys, array $data = [], string $mode = 'create') {
 
     echo "<table class='info-table'>";
@@ -206,21 +243,23 @@ function generate_form($conn, array $schema, array $foreign_keys, array $data = 
         $required = $col['IS_NULLABLE'] === 'NO' ? 'required' : '';
 
         echo "<tr>";
-        echo "<th class='info-label'>$name</th>";
-        echo "<td>";
+        echo "<th class='info-label'>" . labelize($name) . "</th>";
+        echo "<td class='info-value'>";
 
         if (is_image_column($col)) {
 
             if ($mode === 'edit' && $value) {
-                echo "<img src='$value' style='max-height:80px; display:block; margin-bottom:6px'>";
+				if ($name === "profile_picture") echo "<img src='../../../../upload/profile/$value' style='max-height:80px; display:block; margin-bottom:6px'>";
+				elseif ($name === "banner") echo "<img src='../../../../upload/banner/$value' style='max-height:80px; display:block; margin-bottom:6px'>";
+				else echo "<img src='../../../../upload/$value' style='max-height:80px; display:block; margin-bottom:6px'>";
             }
 
-            echo "<input type='file' name='$name' accept='image/*'>";
+            echo "<input class='info-value info-edit' type='file' name='$name' accept='image/*'>";
 
         } elseif ($col['DATA_TYPE'] === 'enum') {
 
             $options = parse_enum($col['COLUMN_TYPE']);
-            echo "<select name='$name' $required>";
+            echo "<select class='info-value info-edit' name='$name' $required>";
             foreach ($options as $opt) {
                 $sel = ($opt == $value) ? 'selected' : '';
                 echo "<option value='$opt' $sel>$opt</option>";
@@ -236,7 +275,7 @@ function generate_form($conn, array $schema, array $foreign_keys, array $data = 
                 $fk['REFERENCED_COLUMN_NAME']
             );
 
-            echo "<select name='$name' $required>";
+            echo "<select class='info-value info-edit' name='$name' $required>";
             foreach ($options as $opt) {
                 $sel = ($opt['id'] == $value) ? 'selected' : '';
                 echo "<option value='{$opt['id']}' $sel>{$opt['label']}</option>";
@@ -245,19 +284,20 @@ function generate_form($conn, array $schema, array $foreign_keys, array $data = 
 
         } elseif (in_array($col['DATA_TYPE'], ['text', 'longtext'])) {
 
-            echo "<textarea name='$name' $required>$value</textarea>";
+            echo "<textarea class='info-value info-edit' name='$name' $required>$value</textarea>";
 
         } else {
 
             $type = map_input_type($col['DATA_TYPE']);
-            echo "<input type='$type' name='$name' value='$value' $required>";
+            echo "<input class='info-value info-edit' type='$type' name='$name' value='$value' $required>";
         }
 
         echo "</td>";
         echo "</tr>";
     }
 
-    echo "</table>";}
+	echo "</table>";
+}
 
 
 function delete_by_id(mysqli $conn, string $table, int $id, string $id_name = "id"): bool {

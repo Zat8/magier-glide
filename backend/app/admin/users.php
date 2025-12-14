@@ -3,6 +3,14 @@ session_start();
 require "../../config/connect.php";
 require "../../utility/utils.php";
 
+require "../../cores/users-util.php";
+$tmp = getUserRole($conn, $_SESSION["user"]);
+if($tmp !== 'resepsionis') {
+	header("Location: ../index.php");
+	exit;
+}
+
+
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 $user_list = paginate($conn, "users", $page, 10);

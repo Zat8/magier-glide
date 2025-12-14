@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			<div class="container-form">	
 			<form method="POST">
-				<?php generate_form($conn, $schema, $fks, $data, "create"); ?>
+				<?php generate_form($conn, $schema, $fks, $data, $id ? "edit" : "create"); ?>
 
 				<div class="action-buttons">	
 					<a class="delete-btn" href="<?= $path_name ?>">Kembali</a>

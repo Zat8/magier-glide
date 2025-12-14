@@ -1,6 +1,17 @@
 [TODO]
 
-Nambahin starter sihir dan achievement ketika user register
-sihir_id = [45, 46, 47]
-achievement_id = [35, 36, 37]
+[done] nambahin semua logic form di semua table (baru tabel rank doang)
+[done] form admin dikasih typpe file ketika input file
+[] kasih guard di bagian admin biar cuma admin yang bisa masuk
 
+[] Nambahin starter sihir dan achievement ketika user register
+	sihir_id = [45, 46, 47]
+	achievement_id = [35, 36, 37]
+
+[] nambahin logic ambil quest
+[] nambahin logic quest yang sudah diambil di gelapkan, atau gak bisa di klik
+
+[] logic timer pas user login
+[] logic finised quest hanya ketika user login
+
+[] fitur ganti background di dashboard (optional)

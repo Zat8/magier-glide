@@ -37,6 +37,9 @@ body {
 	max-width: 50vw;
 	background: #1c2543;
 	margin: 0 auto;
+	padding: 1em;
+	box-sizing: border-box;
+	border-radius: 10px;
 }
 
 
@@ -204,10 +207,27 @@ main {
 }
 
 .info-table {
-    display: grid;
-    grid-template-columns: 120px 1fr; 
+	position: relative;
     gap: 15px; 
     font-size: 18px;
+	width: 100%;
+	padding-bottom: 1em;
+}
+
+.info-table tbody {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	width: 100%;
+}
+
+.info-table tr {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1em;
+	align-items: center;
+	text-align: left;
 }
 
 .exp-progress {

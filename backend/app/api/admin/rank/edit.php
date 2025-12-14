@@ -48,11 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
 			<div class="container-form">	
 			<form method="POST">
-				<?php generate_form($conn, $schema, $fks, $data, "edit"); ?>
+				<?php generate_form($conn, $schema, $fks, $data, $id ? "edit" : "create"); ?>
 
 				<div class="action-buttons">	
-					<a href="<?= $path_name ?>">Kembali</a>
-					<button type="submit">
+					<a class="delete-btn" href="<?= $path_name ?>">Kembali</a>
+					<button class="edit-btn" type="submit">
 						<?= $id ? 'Update' : 'Tambah' ?>
 					</button>
 					</a>

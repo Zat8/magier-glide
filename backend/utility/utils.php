@@ -86,4 +86,8 @@ function paginate($conn, $table, $page = 1, $limit = 10) {
     ];
 }
 
+function labelize(string $str){
+	return ucwords(str_replace('_', ' ', $str));
+}
+
 
