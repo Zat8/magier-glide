@@ -1,4 +1,4 @@
-/* GLOBAL STYLES */
+
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +11,7 @@ body {
     height: 100vh;
 }
 
-/* BACKGROUND */
+
 .background {
     position: fixed;
     top: 0;
@@ -28,7 +28,7 @@ body {
     object-fit: cover;
 }
 
-/* ===== NAVBAR ===== */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -139,7 +139,7 @@ body {
     border-radius: 2px;
 }
 
-/* MAIN LAYOUT */
+
 .main-container {
     position: relative;
     z-index: 10;
@@ -155,7 +155,7 @@ body {
     background-repeat: no-repeat;
 }
 
-/* LEFT SIDEBAR */
+
 .sidebar-left {
     width: 280px;
     display: flex;
@@ -207,7 +207,7 @@ body {
     background-color: #9B87D5;
 }
 
-/* QUEST LIST */
+
 .quest-list-container {
     flex: 1;
     display: flex;
@@ -257,7 +257,7 @@ body {
     border-radius: 10px;
 }
 
-/* QUEST CARD */
+
 .quest-card {
     display: flex;
     align-items: center;
@@ -286,9 +286,9 @@ body {
 
 .quest-icon {
     flex-shrink: 0;
-    aspect-ratio: 1 / 1; /* Membuat persegi sempurna */
-    width: auto; /* Lebar mengikuti tinggi */
-    height: 100%; /* Tinggi mengikuti parent */
+    aspect-ratio: 1 / 1; 
+    width: auto; 
+    height: 100%; 
     border-radius: 0.75rem 0 0 0.75rem;
     display: flex;
     align-items: center;
@@ -319,7 +319,7 @@ body {
     line-height: 1.5;
 }
 
-/* CHARACTER CARDS */
+
 .sidebar-right {
 	position: relative;
 	width: 20em;
@@ -373,7 +373,7 @@ body {
     object-fit: cover;
 }
 
-/* MODAL */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -493,7 +493,7 @@ body {
     transform: translateY(0);
 }
 
-/* Mobile */
+
 @media (max-width: 768px) {
     .navbar {
         padding: 15px 20px;

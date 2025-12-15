@@ -72,7 +72,13 @@ $select_id_name = "id";
 							<td>
 								<div class="action-buttons">
 									<a href="../api/admin/<?= $api_path_name ?>/edit.php?id=<?= $user[$select_id_name] ?>" class="edit-btn">Edit</a>
-									<a href="../api/admin/<?= $api_path_name ?>/delete.php?id=<?= $user[$select_id_name] ?>" class="delete-btn">Delete</a>
+									<form method="POST" action="../api/admin/<?= $api_path_name ?>/delete.php" style="display:inline">
+										<input type="hidden" name="id" value="<?= $user[$select_id_name] ?>">
+										<button class="delete-btn" type="submit"
+												onclick="return confirm('Delete this record?')">
+											Delete
+										</button>
+									</form>
 								</div>
 							</td>
 						</tr>

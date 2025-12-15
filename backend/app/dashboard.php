@@ -5,6 +5,7 @@ require "../cores/users-util.php";
 require "../cores/rank-util.php";
 require "../component/head-content.php";
 require "../utility/utils.php";
+require "../cores/events-utils.php";
 
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
@@ -15,6 +16,7 @@ $email = $_SESSION["user"];
 $user = getUser($conn, $email);
 $ranked = getRankMasterByLevel($conn, $user["rank_user"]);
 $list_leaderboard = getLeaderboard($conn);
+$list_events = getEvents($conn);
 ?>
 
 <!DOCTYPE html>
@@ -25,18 +27,18 @@ $list_leaderboard = getLeaderboard($conn);
 
 </head>
 <body>
-    <!-- Background blur container -->
+     
     <div class="background-blur"></div>
     <div class="background-overlay"></div>
 
-    <!-- NAVBAR -->
+     
 	<?php include "../component/navbar.php"; ?> 
 
-    <!-- Main Content Container -->
+     
     <div class="main-container">
-        <!-- Left Sidebar -->
+         
         <aside class="sidebar-left">
-            <!-- Player Level Card -->
+             
             <div class="player-card">
                 <div class="player-info">
                     <div class="level-badge">
@@ -63,20 +65,28 @@ $list_leaderboard = getLeaderboard($conn);
 				</button>
 			</div>
 
-            <!-- Event Box -->
-            <div class="event-box">
-                <img src="asset/foto/bg_invest.webp" alt="Event Banner" class="event-image">
+             
+			<div class="event-box">
+				<div class="event-images">
+				<?php if(!empty($list_events)) { ?>
+					<?php foreach ($list_events as $value) { ?>
+					<img src="../upload/banner/<?= $value["banner"] ?>" alt="<?= $value["title"] ?>" class="event-image">
+					<?php } ?>
+				<?php } else { ?>	
+					<img src="asset/foto/bg_invest.webp" alt="Event Banner" class="event-image">
+				<?php } ?>
+				</div>
             </div>
         </aside>
 
-        <!-- Center - Character Display -->
+         
         <main class="main-content">
             <div class="character-display">
                 <img src="asset/foto/bodyfrieren.webp">
             </div>
         </main>
 
-        <!-- Right Sidebar - Guild Announcements -->
+         
         <aside class="sidebar-right">
             <div class="guild-announcements">
                 <div class="guild-header">
@@ -84,7 +94,7 @@ $list_leaderboard = getLeaderboard($conn);
                     <h2 class="guild-title">Pengumuman Guild</h2>
                 </div>
                 <div class="announcements-container" id="announcementsContainer">
-                    <!-- Announcements akan di-generate oleh JavaScript -->
+                     
                 </div>
             </div>
         </aside>
@@ -101,7 +111,7 @@ $list_leaderboard = getLeaderboard($conn);
 				</button>
             </div>
             <div class="modal-body">
-                <!-- In Progress Section -->
+                 
                 <div class="quest-section">
                     <div class="section-header">
                         <div class="section-title-group">
@@ -111,11 +121,11 @@ $list_leaderboard = getLeaderboard($conn);
                         <span class="section-count" id="inProgressCount">0</span>
                     </div>
                     <div class="quest-grid" id="questInProgress">
-						<!-- Quest cards akan di-generate oleh JavaScript -->
+						 
                     </div>
                 </div>
 
-                <!-- Done Section -->
+                 
                 <div class="quest-section">
                     <div class="section-header">
                         <div class="section-title-group">
@@ -125,7 +135,7 @@ $list_leaderboard = getLeaderboard($conn);
                         <span class="section-count" id="doneCount">0</span>
                     </div>
                     <div class="quest-grid" id="questDone">
-                        <!-- Quest cards akan di-generate oleh JavaScript -->
+                         
                     </div>
                 </div>
             </div>
@@ -186,7 +196,7 @@ $list_leaderboard = getLeaderboard($conn);
 	</div>
 
 
-	<!-- Link ke JavaScript -->
+	 
     <script type="module" src="asset/dashboard.js"></script>
 
 </body>

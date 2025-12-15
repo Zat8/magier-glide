@@ -1,4 +1,3 @@
-// Navbar Scroll Effect
 window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbar');
     
@@ -9,7 +8,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Hamburger Menu (Mobile)
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
@@ -18,7 +16,6 @@ hamburger.addEventListener('click', function() {
     navMenu.classList.toggle('active');
 });
 
-// Close menu saat klik link (Mobile)
 const navLinks = document.querySelectorAll('.nav-link, .logout-btn');
 
 navLinks.forEach(link => {

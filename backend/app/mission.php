@@ -17,23 +17,23 @@ if (!isset($_SESSION['user'])) {
 
 </head>
 <body>
-    <!-- Background Container -->
-    <!-- Ini adalah container untuk background image -->
+     
+     
     <div class="background">
         <img src="asset/foto/bg_eksplor.webp">
         <img src="asset/svg/peksplor.svg">
     </div>
 
-    <!-- Navigation Bar -->
-    <!-- NAVBAR -->
+     
+     
 
 	<?php include "../component/navbar.php" ?>
 
-    <!-- Main Content Container -->
+     
     <div class="main-container">
         
         <aside class="sidebar-left">
-            <!-- Button akan di-generate oleh JavaScript -->
+             
             <button class="quest-type-btn active" data-type="exploration">
                 Exploration Quest
             </button>
@@ -45,17 +45,17 @@ if (!isset($_SESSION['user'])) {
             </button>
         </aside>
 
-        <!-- Center - Quest List -->
-        <!-- Area tengah untuk menampilkan daftar quest -->
+         
+         
 		<main class="quest-list-container">
 			<p class="quest-list-title">Current Quest</p>
             <div class="quest-list" id="questList">
-                <!-- Quest cards akan di-generate oleh JavaScript -->
+                 
             </div>
         </main>
 
-        <!-- Right Sidebar - Character Cards -->
-        <!-- Panel kanan untuk menampilkan character cards -->
+         
+         
         <aside class="sidebar-right">
             <img class="character-card card-3" src="asset/foto/frieren-3.png">
             <img class="character-card card-2" src="asset/foto/frieren-2.png">
@@ -64,11 +64,11 @@ if (!isset($_SESSION['user'])) {
 
     </div>
 
-    <!-- Modal Detail Quest -->
-    <!-- Popup yang muncul saat quest card diklik -->
+     
+     
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content" id="modalContent">
-            <!-- Modal Header dengan Icon -->
+             
             <div class="modal-header">
                 <div class="modal-icon">
                     <img src="asset/foto/4dm.png" class="fourdm">

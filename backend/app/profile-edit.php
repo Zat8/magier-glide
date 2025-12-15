@@ -25,22 +25,17 @@ $ranked = getRankMasterByLevel($conn, $user["rank_user"])
     <script src="asset/profil.js" defer></script>
 </head>
 <body>
-
-    <!-- NAVBAR -->
-  
 	<?php include "../component/navbar.php"?>
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content edit">
-        <!-- Profile Header dengan nama dan avatar -->
+         
 		<form method="POST" action="api/edit_profile.php" enctype="multipart/form-data">
         <div class="profile-header">
-            <!-- Informasi Profile Kiri -->
+             
             <div class="profile-info">
                 <p class="profile-subtitle"></p>
 				<input class="profile-name-edit" type="text" name="username" value="<?= $user["username"] ?>" required>
                 
-				<!-- Tabel informasi character -->
+				 
 				<div class="info-table">
                     <span class="info-label">Email</span>
 					<span class="info-value"><?= $user['email'] ?></span>
@@ -87,7 +82,7 @@ $ranked = getRankMasterByLevel($conn, $user["rank_user"])
                 </div>
             </div>
             
-            <!-- Avatar dan Badge Kanan -->
+             
 			<div class="profile-avatar">
 				<label for="upload-image" class="edit-btn">Upload Image</label>
 				<input id="upload-image" style="display: none;" type="file" name="image" accept="image/*">
@@ -115,11 +110,8 @@ $ranked = getRankMasterByLevel($conn, $user["rank_user"])
 				reader.readAsDataURL(file);
 			})
 		</script>
-
-        <!-- Grid untuk Sihir dan Achievement - 2 Kartu Besar -->
     </main>
 
-    <!-- ===== FOOTER  ===== -->
 
 	<?php include "../component/footer.php"?>
 

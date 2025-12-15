@@ -167,11 +167,14 @@ function validate_from_schema(array $schema, array $input): array {
         $name = $col['COLUMN_NAME'];
 
         if ($col['EXTRA'] === 'auto_increment') continue;
+		
+		if (is_image_column($col)) continue;
 
-        if ($col['IS_NULLABLE'] === 'NO' && empty($input[$name])) {
+		if ($col['IS_NULLABLE'] === 'NO' && empty($input[$name])) {
+			print_r($input);
             $errors[$name] = "$name is required";
             continue;
-        }
+		}
 
         if (!isset($input[$name])) continue;
 
@@ -193,7 +196,7 @@ function validate_from_schema(array $schema, array $input): array {
 function handle_image_upload(
     string $field,
     string $upload_dir = '../../../../upload/profile',
-    int $quality = 75
+	int $quality = 75,
 ): ?string {
 
     if (
@@ -254,7 +257,7 @@ function generate_form($conn, array $schema, array $foreign_keys, array $data = 
 				else echo "<img src='../../../../upload/$value' style='max-height:80px; display:block; margin-bottom:6px'>";
             }
 
-            echo "<input class='info-value info-edit' type='file' name='$name' accept='image/*'>";
+            echo "<input class='info-value info-edit' type='file' name='$name' accept='image/*' required>";
 
         } elseif ($col['DATA_TYPE'] === 'enum') {
 

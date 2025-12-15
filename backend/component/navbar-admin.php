@@ -17,6 +17,7 @@
 				if(!isset($_SESSION["user"])) {
 					echo '<li><a href="login.php" class="logout-btn">LOGIN</a></li>';
 				} else {
+					echo '<li><a href="../api/logout.php" class="logout-btn">LOGOUT</a></li>';
 					
 				}
 			?>

@@ -18,25 +18,30 @@ $id = isset($_GET['id']) ? (string)$_GET['id'] : null;
 $data = $id ? fetch_by_id($conn, $table, $id, $select_id_name) : [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	foreach ($schema as $col) {
+		if (is_image_column($col)) {
+			$path = handle_image_upload($col['COLUMN_NAME'], upload_dir: "../../../../upload/banner/", quality: 200);
+			if ($path) {
+				$_POST[$col['COLUMN_NAME']] = $path;
+			} else {
+				echo "is null";
+				exit;
+			}
+		}        
+	}
+
     $errors = validate_from_schema($schema, $_POST);
 
 	if (!$errors) {
- 		foreach ($schema as $col) {
-			if (is_image_column($col)) {
-				$path = handle_image_upload($col['COLUMN_NAME']);
-				if ($path) {
-					$_POST[$col['COLUMN_NAME']] = $path;
-				}
-			}        
-		}
-
-
+ 
         $id ? update_dynamic($conn, $table, $schema, $_POST, $id, $select_id_name) 
 			: insert_dynamic($conn, $table, $schema, $_POST);
 
         header("Location: $path_name");
         exit;
- 
+	} else {
+		print_r($errors);
+		exit;
 	}
 }
 ?>

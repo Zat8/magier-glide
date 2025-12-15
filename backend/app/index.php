@@ -14,10 +14,10 @@ require "../component/head-content.php";
 </head>
 <body>
 
-    <!-- NAVBAR -->
+     
 	<?php include "../component/navbar.php"?>
 
-    <!-- BANNER -->
+     
     <section class="banner">
         <div class="banner-bg"></div>
         <div class="banner-overlay"></div>
@@ -31,13 +31,13 @@ require "../component/head-content.php";
             </div>
         </div>
 
-        <!-- Curved Divider -->
+         
         <div class="curve-divider">
             <img src="asset/svg/transisi.svg">
         </div>
     </section>
 
-    <!-- CONTENT SECTION  -->
+     
     <section class="content-section">
         <div class="about">
             <img src="asset/svg/diamond.svg">
@@ -46,29 +46,7 @@ require "../component/head-content.php";
                 Menjalankan Misi Berbahaya, Dan Menapaki Jalan Menuju Peringkat Tertinggi Di Era Pasca Hero Party.</h2>
 				<a href="<?= isset($_SESSION["user"]) ? 'dashboard.php' : 'login.php' ?>" class="login-btn">JOIN NOW</a>
 
-			<!-- UI nya ngide banget
-
-            <div class="slider">
-                <div class="slider-container">
-                    <div class="slides" id="slides">
-                        <div class="slide">
-                            <img draggable="false" ondragstart="return false;" class="frame" src="asset/svg/frame_slider.svg" alt="frame">
-                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-1.png" alt="gambar1">
-                        </div>
-
-                        <div class="slide active">
-                            <img draggable="false" ondragstart="return false;" class="frame" src="asset/svg/frame_slider.svg" alt="frame">
-                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-2.png" alt="gambar2">
-                        </div>
-
-                        <div class="slide">
-                            <img draggable="false" ondragstart="return false;" class="frame" src="asset/svg/frame_slider.svg" alt="frame">
-                            <img draggable="false" ondragstart="return false;" class="content" src="asset/foto/slide-3.png" alt="gambar3">
-                        </div>
-                    </div>
-                </div>
-			</div>
-			-->
+			 
 		    <div class="slider">
                 <div class="slider-container">
                     <div class="slides-combine" id="slides">

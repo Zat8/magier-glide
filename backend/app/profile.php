@@ -58,20 +58,14 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 <body>
 
-    <!-- NAVBAR -->
-  
 	<?php include "../component/navbar.php"?>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-        <!-- Profile Header dengan nama dan avatar -->
         <div class="profile-header">
-            <!-- Informasi Profile Kiri -->
             <div class="profile-info">
                 <p class="profile-subtitle"></p>
 				<h1 class="profile-name"><?= $user["username"] ?></h1>
                 
-                <!-- Tabel informasi character -->
 				<div class="info-table">
                     <span class="info-label">Email</span>
 					<span class="info-value"><?= $user['email'] ?></span>
@@ -97,8 +91,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 					</div>
                 </div>
             </div>
-            
-            <!-- Avatar dan Badge Kanan -->
+             
             <div class="profile-avatar">
                 <a class="edit-btn" href="profile-edit.php">EDIT</a>
 				<img src="../upload/profile/<?= $user["profile_picture"] ?>" alt="Frieren Avatar" class="avatar-image">
@@ -106,12 +99,10 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         </div>
 
-        <!-- Grid untuk Sihir dan Achievement - 2 Kartu Besar -->
+         
         <div class="content-grid">
-            <!-- KARTU 1: SIHIR - Berisi semua sihir -->
             <div class="card">
                 <h2 class="card-title">SIHIR</h2>
-
 				<?php if (!empty($list_sihir)) { ?>
 					<?php foreach ($list_sihir as $sihir): ?>
 						<div class="card-item">
@@ -125,13 +116,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 				<?php } else { ?>
 					<p class="card-simple-msg">Belum ada sihir yang didapatkan</p>
 				<?php } ?>
-
             </div>
 
-            <!-- KARTU 2: ACHIEVEMENT - Berisi semua achievement -->
+             
             <div class="card">
 				<h2 class="card-title">ACHIEVEMENT</h2>
-
 				<?php if (!empty($list_achievement)) { ?>
 					<?php foreach ($list_achievement as $achievement): ?>
 						<div class="card-item">
@@ -149,9 +138,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         </div>
     </main>
-
-    <!-- ===== FOOTER  ===== -->
-
 	<?php include "../component/footer.php"?>
 
 </body>

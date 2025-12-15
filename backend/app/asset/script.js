@@ -1,4 +1,3 @@
-// Navbar Scroll Effect
 window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbar');
     
@@ -9,7 +8,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Hamburger Menu (Mobile)
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
@@ -18,7 +16,6 @@ hamburger.addEventListener('click', function() {
     navMenu.classList.toggle('active');
 });
 
-// Close menu saat klik link (Mobile)
 const navLinks = document.querySelectorAll('.nav-link, .logout-btn');
 
 navLinks.forEach(link => {
@@ -28,7 +25,6 @@ navLinks.forEach(link => {
     });
 });
 
-// ===== SLIDER FUNCTIONALITY =====
 const slides = document.querySelector('.slides-combine');
 const slideElements = document.querySelectorAll('.slide-combine');
 
@@ -38,7 +34,7 @@ let isDragging = false;
 let startX = 0;
 let isMobile = false;
 
-// Deteksi ukuran layar
+
 function checkMobile() {
     isMobile = window.innerWidth <= 768;
 }
@@ -52,7 +48,7 @@ function updateSlider() {
     
     slides.style.transform = `translateX(-${offset}px)`;
     
-    // Update active slide
+    
     slideElements.forEach((slide, index) => {
         slide.classList.toggle('active', index === currentIndex);
     });
@@ -72,8 +68,8 @@ function moveSlide(direction) {
 }
 
 function startAutoSlide() {
-    // Waktu auto slide berbeda untuk mobile dan desktop
-    const slideTime = isMobile ? 3000 : 5000; // 3 detik mobile, 5 detik desktop
+    
+    const slideTime = isMobile ? 3000 : 5000; 
     
     autoSlideInterval = setInterval(() => {
         moveSlide(1);
@@ -89,9 +85,9 @@ function resetAutoSlide() {
     startAutoSlide();
 }
 
-// Mouse drag functionality (untuk desktop)
+
 slides.addEventListener('mousedown', (e) => {
-    if (isMobile) return; // Skip di mobile
+    if (isMobile) return; 
     
     isDragging = true;
     startX = e.clientX;
@@ -130,7 +126,7 @@ slides.addEventListener('mouseleave', () => {
     slides.style.cursor = 'pointer';
 });
 
-// Touch support (untuk mobile)
+
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -145,20 +141,20 @@ slides.addEventListener('touchmove', (e) => {
 
 slides.addEventListener('touchend', () => {
     const diff = touchStartX - touchEndX;
-    const threshold = isMobile ? 30 : 50; // Threshold lebih kecil untuk mobile
+    const threshold = isMobile ? 30 : 50; 
     
     if (Math.abs(diff) > threshold) {
         if (diff > 0) {
-            moveSlide(1); // Swipe left
+            moveSlide(1); 
         } else {
-            moveSlide(-1); // Swipe right
+            moveSlide(-1); 
         }
     }
     
     resetAutoSlide();
 });
 
-// Pause on hover (hanya untuk desktop)
+
 const sliderElement = document.querySelector('.slider');
 
 sliderElement.addEventListener('mouseenter', () => {
@@ -173,12 +169,12 @@ sliderElement.addEventListener('mouseleave', () => {
     }
 });
 
-// Initialize
+
 checkMobile();
 updateSlider();
 startAutoSlide();
 
-// Handle window resize
+
 let resizeTimer;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);

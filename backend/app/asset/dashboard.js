@@ -60,10 +60,6 @@ function toggleAnnouncement(index) {
     }
 }
 
-// ============================================================================
-// 4. QUEST DATA & RENDERING
-// ============================================================================
-
 const questsData = {
     inProgress: [],
     done: []
@@ -352,25 +348,103 @@ function littleAnim() {
 
 function playMusic() {
 	const ctx = new AudioContext();
-	const audio = new Audio("asset/music/bgmusic.mp3");
+
+	const playlist = [
+		"asset/music/bgmusic1.mp3",
+		"asset/music/bgmusic2.mp3"	
+	];
+
+	const randomTrack = playlist[Math.floor(Math.random() * playlist.length)];
+
+	const audio = new Audio(randomTrack);
 	audio.volume = 0.03;
+
 	const source = ctx.createMediaElementSource(audio);
 	source.connect(ctx.destination);
 
 	document.addEventListener("click", async () => {
-	  if (ctx.state === "suspended") {
-		await ctx.resume();
-	  }
-	  audio.play();
+		if (ctx.state === "suspended") {
+			await ctx.resume();
+		}
+		audio.play();
 	}, { once: true });
 }
 
 
+function addEventSlider() {
+	const track = document.querySelector('.event-images');
+	const slides = document.querySelectorAll('.event-image');
 
+	const slideWidth = slides[0].offsetWidth;
+	const pauseTime = 3000;
+	let index = 0;
+
+	const clone = slides[0].cloneNode(true);
+	track.appendChild(clone);
+
+	function moveSlider() {
+		index++;
+	  
+		track.style.transform = `translateX(-${index * slideWidth}px)`;
+		if (index === slides.length) {			
+			setTimeout(() => {
+				track.style.transition = 'none';
+				track.style.transform = 'translateX(0)';
+				index = 0;
+
+				track.offsetHeight;
+				track.style.transition = 'transform 0.6s ease-in-out';
+			}, 600);
+		  
+		}
+	
+	}
+	setInterval(moveSlider, pauseTime + 600);
+}
+
+function changeImageRandomly() {
+	const images = [
+		'./asset/foto/slide-1.png',
+		'./asset/foto/slide-2.png',
+		'./asset/foto/slide-3.png',
+		'./asset/foto/bg_eksplor.webp',
+		'./asset/foto/bg_escort.webp',
+		'./asset/foto/bg_invest.webp',
+	];
+
+	const element = document.querySelector('.background-blur');
+	const overlay = document.querySelector('.background-overlay');
+	const body = document.body;
+	let currentIndex = -1;
+
+	function changeBackground() {
+		let newIndex;
+		do {
+			newIndex = Math.floor(Math.random() * images.length);
+		} while (newIndex === currentIndex);
+		
+		currentIndex = newIndex;
+
+		overlay.style.setProperty("opacity", "1");
+
+		setTimeout(() => {
+			element.style.backgroundImage = `url('${images[newIndex]}')`;
+			body.style.backgroundImage = `url('${images[newIndex]}')`;
+			overlay.style.setProperty("opacity", "0.3");
+		}, 500)
+	}
+
+	changeBackground();
+
+	setInterval(changeBackground, 9000);
+}
 
 window.toggleAnnouncement = toggleAnnouncement;
 async function initDashboard() {
-	// playMusic();
+	playMusic();
+	addEventSlider();
+
+	setTimeout(changeImageRandomly, 1000);
 	loadQuestWithUser();
 	renderQuests();
 	littleAnim();
