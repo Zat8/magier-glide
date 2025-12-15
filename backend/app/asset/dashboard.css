@@ -649,10 +649,12 @@ body::-webkit-scrollbar {
 }
 
 .quest-card {
+	position: relative;
     background-color: white;
     border-radius: 0.5rem;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+	height: 14em;
 }
 
 .quest-card:hover {
@@ -695,6 +697,9 @@ body::-webkit-scrollbar {
 
 .quest-body {
     padding: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	height: 70%;
 }
 
 .quest-title {
@@ -715,6 +720,8 @@ body::-webkit-scrollbar {
     color: #6b7280;
     font-size: 0.9rem;
 	font-weight: bold;
+
+	margin-top: auto;
 }
 
 /* ============================================================================

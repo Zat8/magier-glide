@@ -465,3 +465,6 @@ INSERT INTO users  (id, username, email, user_title, password, experience, rank_
 ('user_lawine_3Pp7', 'Lawine', 'lawine@guild.magic', 'Ice Mage Apprentice', '$2y$dummyhash', 3000, 3, 'penyihir', 'manusia', 'air', 18),
 ('user_kanne_2Ux8', 'Kanne', 'kanne@guild.magic', 'Water Manipulator', '$2y$dummyhash', 1800, 2, 'penyihir', 'manusia', 'air', 18),
 ('user_apprentice_1Vr9', 'Guild Apprentice', 'apprentice@guild.magic', 'New Mage', '$2y$dummyhash', 400, 1, 'penyihir', 'manusia', 'angin', 16);
+
+insert into users (id, username, email, password, role, user_title) VALUES
+("user_693d110d6df1f", "admin", "admin@resmi.com", "$2y$10$CteLCMCJKomjkiE5QrQ2Ru/1xtaFeBtYruDpCixZGXtoONNB4mq/W", "resepsionis", "12345");
